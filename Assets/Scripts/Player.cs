@@ -17,46 +17,36 @@ public class Player : MonoBehaviour
     private float _screenMinY;
 
 
-    // Start is called before the first frame update
     void Start()
     {
-        //set starting position to (0,0,0)
         transform.position = Vector3.zero;
         _direction = Vector3.zero;
         
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        CalculateMovement();
+    }
 
-        //move player based on user input
+    void CalculateMovement()
+    {
         _direction.x = Input.GetAxis("Horizontal");
         _direction.y = Input.GetAxis("Vertical");
         transform.Translate(_direction * _speed * Time.deltaTime);
 
         Vector3 playerPosition = transform.position;
 
-        //keep player between MaxX, MinX
         if (playerPosition.x > _screenMaxX)
         {
             playerPosition.x = _screenMinX;
-        } 
+        }
         else if (playerPosition.x < _screenMinX)
         {
             playerPosition.x = _screenMaxX;
         }
 
-        //keep player between MaxY, MinY
-        if(playerPosition.y > _screenMaxY)
-        {
-            playerPosition.y = _screenMaxY;
-        }
-        else if (playerPosition.y < _screenMinY)
-        {
-            playerPosition.y = _screenMinY;
-        }
+        playerPosition.y = Mathf.Clamp(transform.position.y, _screenMinY, _screenMaxY);
 
         transform.position = playerPosition;
     }
