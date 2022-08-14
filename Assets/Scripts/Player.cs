@@ -15,6 +15,9 @@ public class Player : MonoBehaviour
     private float _screenMaxY;
     [SerializeField]
     private float _screenMinY;
+    //reference to laser
+    [SerializeField]
+    private GameObject _laserPrefab;
 
 
     void Start()
@@ -27,6 +30,13 @@ public class Player : MonoBehaviour
     void Update()
     {
         CalculateMovement();
+
+        //if space key pressed
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            // create laser
+            Instantiate(_laserPrefab, transform.position, Quaternion.identity);
+        }
     }
 
     void CalculateMovement()
