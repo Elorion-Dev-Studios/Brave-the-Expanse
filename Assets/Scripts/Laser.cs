@@ -7,6 +7,8 @@ public class Laser : MonoBehaviour
     //speed variable
     [SerializeField]
     private float _speed = 5f;
+    [SerializeField]
+    private float _maxY = 7f;
 
 
     // Start is called before the first frame update
@@ -20,5 +22,12 @@ public class Laser : MonoBehaviour
     {
         //move laser up at speed
         transform.Translate(Vector3.up * _speed * Time.deltaTime);
+
+        //if position is greater than max Y
+        if (transform.position.y > _maxY)
+        {
+            //destroy laser
+            Destroy(this.gameObject);
+        }
     }
 }
