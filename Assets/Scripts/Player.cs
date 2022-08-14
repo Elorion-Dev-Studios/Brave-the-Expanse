@@ -18,12 +18,17 @@ public class Player : MonoBehaviour
     //reference to laser
     [SerializeField]
     private GameObject _laserPrefab;
+    //laser position offset
+    [SerializeField]
+    private float _laserOffsetY;
+    private Vector3 _laserOffsetVector;
 
 
     void Start()
     {
         transform.position = Vector3.zero;
         _direction = Vector3.zero;
+        _laserOffsetVector = new Vector3(0, _laserOffsetY, 0);
         
     }
 
@@ -34,8 +39,8 @@ public class Player : MonoBehaviour
         //if space key pressed
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            // create laser
-            Instantiate(_laserPrefab, transform.position, Quaternion.identity);
+            // create laser at player position plus offset
+            Instantiate(_laserPrefab, (transform.position + _laserOffsetVector), Quaternion.identity);
         }
     }
 
