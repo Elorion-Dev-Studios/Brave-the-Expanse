@@ -50,6 +50,18 @@ public class Enemy : MonoBehaviour
         {
             // damage player
             Debug.Log("Player Damaged");
+
+            Player player = other.transform.GetComponent<Player>();
+
+            if (player != null)
+            {
+                player.Damage();
+            }
+            else
+            {
+                Debug.Log("Player does not exist -- Cannot damage player");
+            }
+
             // destroy this enemy
             Destroy(this.gameObject);
         }
