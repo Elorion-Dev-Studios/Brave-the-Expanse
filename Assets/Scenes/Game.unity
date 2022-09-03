@@ -269,7 +269,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 0
+  orthographic: 1
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:
@@ -426,6 +426,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -6382605919469041098, guid: bd38e68533a3df74f999e1604c05b604, type: 3}
+      propertyPath: _maxX
+      value: 8.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -6382605919469041098, guid: bd38e68533a3df74f999e1604c05b604, type: 3}
+      propertyPath: _maxY
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -6382605919469041098, guid: bd38e68533a3df74f999e1604c05b604, type: 3}
+      propertyPath: _minX
+      value: -8.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -6382605919469041098, guid: bd38e68533a3df74f999e1604c05b604, type: 3}
+      propertyPath: _minY
+      value: -5
+      objectReference: {fileID: 0}
+    - target: {fileID: -6382605919469041098, guid: bd38e68533a3df74f999e1604c05b604, type: 3}
+      propertyPath: _screenMaxY
+      value: 7.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -6382605919469041098, guid: bd38e68533a3df74f999e1604c05b604, type: 3}
+      propertyPath: _screenMinY
+      value: -5.5
+      objectReference: {fileID: 0}
     - target: {fileID: 4267845876264253509, guid: bd38e68533a3df74f999e1604c05b604, type: 3}
       propertyPath: m_Name
       value: Enemy
@@ -436,11 +460,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7239265675723183952, guid: bd38e68533a3df74f999e1604c05b604, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.24
       objectReference: {fileID: 0}
     - target: {fileID: 7239265675723183952, guid: bd38e68533a3df74f999e1604c05b604, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2
+      value: 5.53
       objectReference: {fileID: 0}
     - target: {fileID: 7239265675723183952, guid: bd38e68533a3df74f999e1604c05b604, type: 3}
       propertyPath: m_LocalPosition.z
