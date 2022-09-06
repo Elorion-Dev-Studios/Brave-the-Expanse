@@ -15,6 +15,9 @@ public class SpawnManager : MonoBehaviour
     //enemy spawn X max, min
     [SerializeField]
     private float _enemySpawnXMax, _enemySpawnXMin;
+    //reference enemy container
+    [SerializeField]
+    private GameObject _enemyContainer;
 
 
 
@@ -39,7 +42,9 @@ public class SpawnManager : MonoBehaviour
             //random spawn location
             Vector3 enemySpawnPos = new Vector3(Random.Range(_enemySpawnXMin, _enemySpawnXMax), _enemySpawnY, 0);
             //spawn enemy
-            Instantiate(_enemy,enemySpawnPos,Quaternion.identity);
+            GameObject newEnemy = Instantiate(_enemy,enemySpawnPos,Quaternion.identity);
+            //assign Enemy Container as spawned enemy parent
+            newEnemy.transform.parent = _enemyContainer.transform;
             //wait 5 sec
             yield return _enemyDelay;
         }
