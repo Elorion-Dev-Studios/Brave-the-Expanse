@@ -112,10 +112,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 4
-  _maxX: 0
-  _minX: 0
-  _maxY: 0
-  _minY: 0
+  _maxX: 8.5
+  _minX: -8.5
+  _maxY: 7
+  _minY: -5
 --- !u!54 &7324730851280741478
 Rigidbody:
   m_ObjectHideFlags: 0
