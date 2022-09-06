@@ -18,6 +18,8 @@ public class SpawnManager : MonoBehaviour
     //reference enemy container
     [SerializeField]
     private GameObject _enemyContainer;
+    //toggle for spawning
+    private bool _spawnFlag = true;
 
 
 
@@ -37,7 +39,8 @@ public class SpawnManager : MonoBehaviour
     //spawn game objects every 5 secs
     IEnumerator SpawnRoutine()
     {
-        while (true)
+        //while player is alive
+        while (_spawnFlag)
         {
             //random spawn location
             Vector3 enemySpawnPos = new Vector3(Random.Range(_enemySpawnXMin, _enemySpawnXMax), _enemySpawnY, 0);
@@ -48,5 +51,11 @@ public class SpawnManager : MonoBehaviour
             //wait 5 sec
             yield return _enemyDelay;
         }
+    }
+
+    public void StopSpawning()
+    {
+        //turn off spawn flag
+        _spawnFlag = false;
     }
 }

@@ -26,6 +26,9 @@ public class Player : MonoBehaviour
     private float _nextFire = -1f;
     [SerializeField]
     private int _lives = 3;
+
+    //reference to spawn manager
+    private SpawnManager _spawnManager;
     
 
 
@@ -35,6 +38,12 @@ public class Player : MonoBehaviour
         _direction = Vector3.zero;
         _laserOffsetVector = new Vector3(0, _laserOffsetY, 0);
         
+        //cache reference to Spawn Manager
+        _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
+        if (_spawnManager == null)
+        {
+            Debug.LogError("Player failed to cache reference to Spawn Manager");
+        }
     }
 
     void Update()
@@ -81,6 +90,7 @@ public class Player : MonoBehaviour
 
         if (_lives < 1)
         {
+            _spawnManager.StopSpawning();
             Destroy(this.gameObject);
         }
     }
