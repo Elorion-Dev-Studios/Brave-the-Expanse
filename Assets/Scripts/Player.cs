@@ -8,14 +8,13 @@ public class Player : MonoBehaviour
     private float _speed = 3.5f;
     private Vector3 _direction;
     [SerializeField]
-    private float _screenMaxX;
+    private int _lives = 3;
+
     [SerializeField]
-    private float _screenMinX;
+    private float _screenMaxX, _screenMinX;
     [SerializeField]
-    private float _screenMaxY;
-    [SerializeField]
-    private float _screenMinY;
-   
+    private float _screenMaxY, _screenMinY;
+
     [SerializeField]
     private GameObject _laserPrefab;
     [SerializeField]
@@ -24,13 +23,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float _fireRate = 0.5f;
     private float _nextFire = -1f;
-    [SerializeField]
-    private int _lives = 3;
 
-    //reference to spawn manager
     private SpawnManager _spawnManager;
-    
-
 
     void Start()
     {
@@ -38,7 +32,6 @@ public class Player : MonoBehaviour
         _direction = Vector3.zero;
         _laserOffsetVector = new Vector3(0, _laserOffsetY, 0);
         
-        //cache reference to Spawn Manager
         _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
         if (_spawnManager == null)
         {
