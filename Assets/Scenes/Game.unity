@@ -388,7 +388,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f6af36e7644ec04ebf7401c7350308d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemy: {fileID: 4267845876264253509, guid: bd38e68533a3df74f999e1604c05b604, type: 3}
+  _enemy: {fileID: 2121459715831160106, guid: df69ec0d7adecf2408e0fa8e3b2fd95b, type: 3}
   _enemySpawnY: 7
   _enemySpawnXMax: 8.5
   _enemySpawnXMin: -8.5
@@ -585,7 +585,7 @@ GameObject:
   - component: {fileID: 1948148046}
   - component: {fileID: 1948148050}
   m_Layer: 0
-  m_Name: Player
+  m_Name: Player_proto
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
