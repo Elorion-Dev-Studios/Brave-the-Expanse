@@ -102,8 +102,8 @@ MonoBehaviour:
   _speed: 4
   _maxX: 8.5
   _minX: -8.5
-  _maxY: 7
-  _minY: -5
+  _maxY: 9
+  _minY: -7
 --- !u!61 &4808739181452805839
 BoxCollider2D:
   m_ObjectHideFlags: 0
