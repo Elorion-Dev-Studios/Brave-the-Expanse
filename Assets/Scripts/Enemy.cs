@@ -7,13 +7,11 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private float _speed = 4f;
 
-    //min/max X position where enemy is still in view
     [SerializeField]
     private float _maxX;
     [SerializeField]
     private float _minX;
 
-    //min/max Y position where enemy is just out of view
     [SerializeField]
     private float _maxY;
     [SerializeField]
@@ -30,11 +28,6 @@ public class Enemy : MonoBehaviour
             transform.position = new Vector3(randomX, _maxY,0);
         }
     }
-
-/*    private void OnTriggerEnter(Collider other)
-    {
-
-    }*/
 
     private void OnTriggerEnter2D(Collider2D other)
     {

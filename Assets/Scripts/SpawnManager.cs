@@ -8,6 +8,7 @@ public class SpawnManager : MonoBehaviour
     private float _spawnY;
     [SerializeField]
     private float _spawnXMax, _spawnXMin;
+    private bool _spawnFlag = true;
 
     [SerializeField]
     private GameObject _enemy;
@@ -15,14 +16,11 @@ public class SpawnManager : MonoBehaviour
     private GameObject _enemyContainer;
     private WaitForSeconds _enemyDelay = new WaitForSeconds(5.0f);
 
-    //tripleshot powerup
     [SerializeField]
     private GameObject _tripleShotPowerup;
     private float _powerupSpawnDelayMin = 3.0f;
     private float _powerupSpawnDelayMax = 7.0f;
 
-
-    private bool _spawnFlag = true;
 
     void Start()
     {
@@ -43,18 +41,13 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator PowerupSpawnRoutine()
     {
-        //while game is running
         while (_spawnFlag)
         {
-            //random x position for powerup spawn
             Vector3 powerupSpawnPos = new Vector3(Random.Range(_spawnXMin, _spawnXMax), _spawnY, 0);
-            //instantiate powerup
             Instantiate(_tripleShotPowerup, powerupSpawnPos, Quaternion.identity);
-            //wait random seconds (3-7)
             yield return new WaitForSeconds(Random.Range(_powerupSpawnDelayMin, _powerupSpawnDelayMax));
         }
     }
-
 
     public void StopSpawning()
     {

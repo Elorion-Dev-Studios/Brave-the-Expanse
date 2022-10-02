@@ -24,14 +24,9 @@ public class Player : MonoBehaviour
     private float _fireRate = 0.5f;
     private float _nextFire = -1f;
 
-    //triple shot switch
-    [SerializeField]
     private bool _tripleShotActive;
     [SerializeField]
     private GameObject _tripleShotPrefab;
-    [SerializeField]
-    private float _tripleShotOffsetY;
-    private Vector3 _tripleShotOffsetVector;
     [SerializeField]
     private float _tripleShotDuration = 3.0f;
 
@@ -42,7 +37,6 @@ public class Player : MonoBehaviour
         transform.position = Vector3.zero;
         _direction = Vector3.zero;
         _laserOffsetVector = new Vector3(0, _laserOffsetY, 0);
-        _tripleShotOffsetVector = new Vector3(0, _tripleShotOffsetY, 0);
         
         _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
         if (_spawnManager == null)
@@ -89,7 +83,7 @@ public class Player : MonoBehaviour
 
         if (_tripleShotActive)
         {
-            Instantiate(_tripleShotPrefab, (transform.position + _tripleShotOffsetVector), Quaternion.identity);
+            Instantiate(_tripleShotPrefab, (transform.position), Quaternion.identity);
         }
         else
         {
