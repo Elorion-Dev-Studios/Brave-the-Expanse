@@ -24,11 +24,20 @@ public class Player : MonoBehaviour
     private float _fireRate = 0.5f;
     private float _nextFire = -1f;
 
+
+    //Powerups
+    [SerializeField]
+    private float _powerupDuration = 3.0f;
+
+    //  TripleShot
     private bool _tripleShotActive;
     [SerializeField]
     private GameObject _tripleShotPrefab;
+
+    //  SpeedBoost
+    private bool _speedBoostActive;
     [SerializeField]
-    private float _tripleShotDuration = 3.0f;
+    private float _speedBoost = 5.0f;
 
     private SpawnManager _spawnManager;
 
@@ -47,7 +56,18 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        CalculateMovement();
+        // if speedboostactive
+        // use speedboost value
+        if (_speedBoostActive)
+        {
+            CalculateMovement(_speedBoost);
+        }
+        // else 
+        // use standard speed value
+        else
+        {
+            CalculateMovement(_speed);
+        }
 
         if (Input.GetKeyDown(KeyCode.Space) && Time.time > _nextFire )
         {
@@ -55,11 +75,11 @@ public class Player : MonoBehaviour
         }
     }
 
-    void CalculateMovement()
+    void CalculateMovement(float speed)
     {
         _direction.x = Input.GetAxis("Horizontal");
         _direction.y = Input.GetAxis("Vertical");
-        transform.Translate(_direction * _speed * Time.deltaTime);
+        transform.Translate(_direction * speed * Time.deltaTime);
 
         Vector3 playerPosition = transform.position;
 
@@ -94,8 +114,15 @@ public class Player : MonoBehaviour
     IEnumerator TripleShotRoutine()
     {
         _tripleShotActive = true;
-        yield return new WaitForSeconds(_tripleShotDuration);
-        _tripleShotActive = false; 
+        yield return new WaitForSeconds(_powerupDuration);
+        _tripleShotActive = false;
+    }
+
+    IEnumerator SpeedBoostRoutine()
+    {
+        _speedBoostActive = true;
+        yield return new WaitForSeconds(_powerupDuration);
+        _speedBoostActive = false;
     }
 
     public void Damage()
@@ -112,6 +139,11 @@ public class Player : MonoBehaviour
     public void ActivateTripleShot()
     {
         StartCoroutine(TripleShotRoutine());
+    }
+
+    public void ActivateSpeedBoost()
+    {
+        StartCoroutine(SpeedBoostRoutine());
     }
 
 }

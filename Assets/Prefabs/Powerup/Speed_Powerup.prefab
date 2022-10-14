@@ -148,3 +148,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 3
   _minY: -6
+  _powerupID: 1

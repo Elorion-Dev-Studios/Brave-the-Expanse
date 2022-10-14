@@ -9,6 +9,12 @@ public class Powerup : MonoBehaviour
     [SerializeField]
     private float _minY;
 
+    [SerializeField] // 0=TripleShot; 1=Speed; 2=Shield;
+    private int _powerupID;
+
+
+
+
     void Update()
     {
         transform.Translate(Vector3.down * _speed * Time.deltaTime);
@@ -27,7 +33,45 @@ public class Powerup : MonoBehaviour
 
             if (player != null)
             {
-                player.ActivateTripleShot();
+/*                // if powerupID = 0
+                // activate tripleshot
+                if (_powerupID == 0)
+                {
+                    player.ActivateTripleShot();
+                }    
+
+                // else if powerupID = 1
+                // activate speed
+                else if (_powerupID == 1)
+                {
+                    player.ActivateSpeedBoost();
+                }
+
+                // else if powerupID = 2
+                // activate shield*/
+
+                switch(_powerupID)
+                {
+                    // if powerupID = 0
+                    // activate tripleshot
+                    case 0:
+                        player.ActivateTripleShot();
+                        break;
+
+                    // else if powerupID = 1
+                    // activate speed
+                    case 1:
+                        player.ActivateSpeedBoost();
+                        break;
+
+                    // else if powerupID = 2
+                    // activate shield
+
+                    default:
+                        Debug.Log("Powerup ID is not valid");
+                        break;
+                }
+
                 Destroy(this.gameObject);
             }
             else
