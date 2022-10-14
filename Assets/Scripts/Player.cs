@@ -25,21 +25,19 @@ public class Player : MonoBehaviour
     private float _nextFire = -1f;
 
 
-    //Powerups
     [SerializeField]
     private float _powerupDuration = 3.0f;
 
-    //  TripleShot
     private bool _tripleShotActive;
     [SerializeField]
     private GameObject _tripleShotPrefab;
 
-    //  SpeedBoost
     private bool _speedBoostActive;
     [SerializeField]
     private float _speedBoost = 5.0f;
 
     private SpawnManager _spawnManager;
+
 
     void Start()
     {
@@ -56,14 +54,10 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        // if speedboostactive
-        // use speedboost value
         if (_speedBoostActive)
         {
             CalculateMovement(_speedBoost);
         }
-        // else 
-        // use standard speed value
         else
         {
             CalculateMovement(_speed);
