@@ -147,13 +147,16 @@ public class Player : MonoBehaviour
 
         _lives -= 1;
 
+        _uiManager.UpdateLivesImg(_lives);
+
         if (_lives < 1)
         {
             _spawnManager.StopSpawning();
+            _uiManager.UpdateGameOver();
             Destroy(this.gameObject);
         }
 
-        _uiManager.UpdateLivesImg(_lives);
+        
     }
 
     private void DeactivateShield()

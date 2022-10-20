@@ -14,12 +14,20 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Sprite[] _livesSprites;
     //reference to Lives img
     [SerializeField] private Image _livesImg;
+    //reference to GameOver txt
+    [SerializeField] private TMP_Text _gameOverText;
+    //game over switch
+    private bool _gameOver = false;
+    [SerializeField] private string _gameOverVerbiage = "GAME OVER";
+
 
 
     void Start()
     {
         _scoreText.text = "Score: 0";
         _livesImg.sprite = _livesSprites[3];
+        _gameOverText.text = _gameOverVerbiage;
+        _gameOverText.gameObject.SetActive(false);
     }
 
     void Update()
@@ -38,4 +46,11 @@ public class UIManager : MonoBehaviour
         //set livesImg sprite to the _livesSprite at index = lives
         _livesImg.sprite = _livesSprites[lives];
     }
+
+    public void UpdateGameOver()
+    {
+        _gameOver = true;
+        _gameOverText.gameObject.SetActive(true);
+    }
+    
 }
