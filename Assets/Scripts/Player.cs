@@ -152,6 +152,8 @@ public class Player : MonoBehaviour
             _spawnManager.StopSpawning();
             Destroy(this.gameObject);
         }
+
+        _uiManager.UpdateLivesImg(_lives);
     }
 
     private void DeactivateShield()
