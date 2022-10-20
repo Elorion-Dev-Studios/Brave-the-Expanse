@@ -40,8 +40,12 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject _shieldObject;
 
-
     private SpawnManager _spawnManager;
+
+    //ui manager
+    private UIManager _uiManager;
+    //score
+    private int _score;
 
 
     void Start()
@@ -57,6 +61,13 @@ public class Player : MonoBehaviour
         }
 
         _shieldObject.SetActive(false);
+
+        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+        if (_uiManager == null)
+        {
+            Debug.LogError("Player failed to cache reference to UI Manager");
+        }
+
     }
 
     void Update()
@@ -164,6 +175,15 @@ public class Player : MonoBehaviour
     {
         _shieldActive = true;
         _shieldObject.SetActive(true);
+    }
+
+    //public method to update score
+    public void IncrementScore(int points)
+    {
+        //increment score by 10
+        _score += points;
+        //update ui manager - score text
+        _uiManager.UpdateScoreText(_score.ToString());
     }
 
 }

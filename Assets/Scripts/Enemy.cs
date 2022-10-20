@@ -17,6 +17,18 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private float _minY;
 
+    //get reference to player
+    private Player _player;
+    private int _pointValue = 10;
+
+    void Start()
+    {
+        _player = GameObject.Find("Player").GetComponent<Player>();
+        if (_player == null)
+        {
+            Debug.LogError("Enemy failed to cache reference to Player");
+        }
+    }
 
     void Update()
     {
@@ -33,23 +45,15 @@ public class Enemy : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Player player = other.transform.GetComponent<Player>();
-
-            if (player != null)
-            {
-                player.Damage();
-            }
-            else
-            {
-                Debug.Log("Player does not exist -- Cannot damage player");
-            }
-
+            _player.Damage();
             Destroy(this.gameObject);
         }
 
         if (other.CompareTag("Laser"))
         {
             Destroy(other.gameObject);
+            //add score
+            _player.IncrementScore(_pointValue);           
             Destroy(this.gameObject);
         }
     }
