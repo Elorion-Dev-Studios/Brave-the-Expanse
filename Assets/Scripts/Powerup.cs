@@ -40,6 +40,9 @@ public class Powerup : MonoBehaviour
                         player.ActivateSpeedBoost();
                         break;
                     //case 2: shields
+                    case 2:
+                        player.ActivateShield();
+                        break;
                     default:
                         Debug.Log("Powerup ID is not valid");
                         break;

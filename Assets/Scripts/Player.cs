@@ -36,6 +36,14 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float _speedBoost = 5.0f;
 
+    //reference to shield
+    [SerializeField]
+    private GameObject _shieldObject;
+    //shield active
+    [SerializeField]
+    private bool _shieldActive;
+
+
     private SpawnManager _spawnManager;
 
 
@@ -50,6 +58,9 @@ public class Player : MonoBehaviour
         {
             Debug.LogError("Player failed to cache reference to Spawn Manager");
         }
+
+        //ensure shield does not display at start
+        _shieldObject.SetActive(false);
     }
 
     void Update()
@@ -121,6 +132,15 @@ public class Player : MonoBehaviour
 
     public void Damage()
     {
+        //if shield active
+        if (_shieldActive)
+        {
+            //turn off shield
+            DeactivateShield();
+            //do not damage player
+            return;
+        }
+
         _lives -= 1;
 
         if (_lives < 1)
@@ -128,6 +148,14 @@ public class Player : MonoBehaviour
             _spawnManager.StopSpawning();
             Destroy(this.gameObject);
         }
+    }
+
+    private void DeactivateShield()
+    {
+        //shield active to false
+        _shieldActive = false;
+        //turn off shield display
+        _shieldObject.SetActive(false);
     }
 
     public void ActivateTripleShot()
@@ -138,6 +166,15 @@ public class Player : MonoBehaviour
     public void ActivateSpeedBoost()
     {
         StartCoroutine(SpeedBoostRoutine());
+    }
+
+    //public method to activate shield
+    public void ActivateShield()
+    {
+        //set shieldactive to true
+        _shieldActive = true;
+        //display shield
+        _shieldObject.SetActive(true);
     }
 
 }
