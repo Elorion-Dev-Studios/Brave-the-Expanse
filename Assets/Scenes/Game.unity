@@ -636,6 +636,7 @@ MonoBehaviour:
   _livesImg: {fileID: 1271152356}
   _gameOverText: {fileID: 756051026}
   _gameOverVerbiage: GAME OVER
+  _gameOverFlickerSpeed: 0.67
 --- !u!1 &1141814472
 GameObject:
   m_ObjectHideFlags: 0
@@ -721,7 +722,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1206675005
 Transform:
   m_ObjectHideFlags: 0

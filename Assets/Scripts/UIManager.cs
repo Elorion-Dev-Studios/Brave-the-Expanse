@@ -19,6 +19,8 @@ public class UIManager : MonoBehaviour
     //game over switch
     private bool _gameOver = false;
     [SerializeField] private string _gameOverVerbiage = "GAME OVER";
+    [SerializeField] private float _gameOverFlickerSpeed = 1.0f;
+    private WaitForSeconds _gameOverFlickerDelay;
 
 
 
@@ -28,11 +30,18 @@ public class UIManager : MonoBehaviour
         _livesImg.sprite = _livesSprites[3];
         _gameOverText.text = _gameOverVerbiage;
         _gameOverText.gameObject.SetActive(false);
+        _gameOverFlickerDelay = new WaitForSeconds(_gameOverFlickerSpeed);
     }
 
-    void Update()
+    private IEnumerator GameOverFlashRoutine()
     {
-        
+        while (_gameOver)
+        {
+            _gameOverText.gameObject.SetActive(true);
+            yield return _gameOverFlickerDelay;
+            _gameOverText.gameObject.SetActive(false);
+            yield return _gameOverFlickerDelay;
+        }
     }
 
     public void UpdateScoreText(string scoreValue)
@@ -50,7 +59,7 @@ public class UIManager : MonoBehaviour
     public void UpdateGameOver()
     {
         _gameOver = true;
-        _gameOverText.gameObject.SetActive(true);
+        StartCoroutine(GameOverFlashRoutine());
     }
     
 }
