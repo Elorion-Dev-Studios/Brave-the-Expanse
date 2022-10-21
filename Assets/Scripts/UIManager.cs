@@ -16,6 +16,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image _livesImg;
     //reference to GameOver txt
     [SerializeField] private TMP_Text _gameOverText;
+    [SerializeField] private TMP_Text _restartText;
     //game over switch
     private bool _gameOver = false;
     [SerializeField] private string _gameOverVerbiage = "GAME OVER";
@@ -30,6 +31,7 @@ public class UIManager : MonoBehaviour
         _livesImg.sprite = _livesSprites[3];
         _gameOverText.text = _gameOverVerbiage;
         _gameOverText.gameObject.SetActive(false);
+        _restartText.gameObject.SetActive(false);
         _gameOverFlickerDelay = new WaitForSeconds(_gameOverFlickerSpeed);
     }
 
@@ -59,6 +61,7 @@ public class UIManager : MonoBehaviour
     public void UpdateGameOver()
     {
         _gameOver = true;
+        _restartText.gameObject.SetActive(true);
         StartCoroutine(GameOverFlashRoutine());
     }
     
