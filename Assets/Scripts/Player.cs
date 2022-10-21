@@ -41,6 +41,7 @@ public class Player : MonoBehaviour
     private GameObject _shieldObject;
 
     private SpawnManager _spawnManager;
+    private GameManager _gameManager;
 
     //ui manager
     private UIManager _uiManager;
@@ -67,6 +68,13 @@ public class Player : MonoBehaviour
         {
             Debug.LogError("Player failed to cache reference to UI Manager");
         }
+
+        _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        if (_gameManager == null)
+        {
+            Debug.LogError("Player failed to cache reference to Game Manager");
+        }
+
 
     }
 
@@ -153,6 +161,7 @@ public class Player : MonoBehaviour
         {
             _spawnManager.StopSpawning();
             _uiManager.UpdateGameOver();
+            _gameManager.UpdateGameOver();
             Destroy(this.gameObject);
         }
 
