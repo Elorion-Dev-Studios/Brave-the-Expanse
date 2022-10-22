@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R) && _gameOver)
         {
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(1);
         }
     }
 
