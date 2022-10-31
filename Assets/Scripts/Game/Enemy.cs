@@ -21,6 +21,9 @@ public class Enemy : MonoBehaviour
     private Player _player;
     private int _pointValue = 10;
 
+    //enemy animator
+    private Animator _animator;
+
     void Start()
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
@@ -28,6 +31,13 @@ public class Enemy : MonoBehaviour
         {
             Debug.LogError("Enemy failed to cache reference to Player");
         }
+
+        _animator = gameObject.GetComponent<Animator>(); 
+        if(_animator == null)
+        {
+            Debug.LogError("Enemy failed to cache reference to its Animator");
+        }
+
     }
 
     void Update()
@@ -46,15 +56,19 @@ public class Enemy : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             _player.Damage();
-            Destroy(this.gameObject);
+            _animator.SetTrigger("OnEnemyDeath");
+            _speed = 0;
+            Destroy(this.gameObject,1.5f);
         }
 
         if (other.CompareTag("Laser"))
         {
-            Destroy(other.gameObject);
+            Destroy(other.gameObject,0.25f);
             //add score
-            _player.IncrementScore(_pointValue);           
-            Destroy(this.gameObject);
+            _player.IncrementScore(_pointValue);
+            _animator.SetTrigger("OnEnemyDeath");
+            _speed = 0;
+            Destroy(this.gameObject, 1.5f);
         }
     }
 }
