@@ -40,6 +40,9 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject _shieldObject;
 
+    private bool _thrusterActive;
+    [SerializeField] private GameObject _thrusterObject;
+
     private SpawnManager _spawnManager;
     private GameManager _gameManager;
 
@@ -141,8 +144,11 @@ public class Player : MonoBehaviour
     IEnumerator SpeedBoostRoutine()
     {
         _speedBoostActive = true;
+        _thrusterActive = true;
+        _thrusterObject.SetActive(true);
         yield return new WaitForSeconds(_powerupDuration);
         _speedBoostActive = false;
+        _thrusterObject.SetActive(false);
     }
 
     public void Damage()
