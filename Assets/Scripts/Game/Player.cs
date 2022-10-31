@@ -43,6 +43,9 @@ public class Player : MonoBehaviour
     private bool _thrusterActive;
     [SerializeField] private GameObject _thrusterObject;
 
+    [SerializeField] private GameObject _rightEngineDamage, _leftEngineDamage;
+
+
     private SpawnManager _spawnManager;
     private GameManager _gameManager;
 
@@ -50,6 +53,8 @@ public class Player : MonoBehaviour
     private UIManager _uiManager;
     //score
     private int _score;
+
+
 
 
     void Start()
@@ -163,13 +168,31 @@ public class Player : MonoBehaviour
 
         _uiManager.UpdateLivesImg(_lives);
 
-        if (_lives < 1)
+        switch (_lives)
+        {
+            case 3:
+                break;
+            case 2:
+                _rightEngineDamage.SetActive(true);
+                break;
+            case 1:
+                _leftEngineDamage.SetActive(true);
+                break;
+            default:
+                _spawnManager.StopSpawning();
+                _uiManager.UpdateGameOver();
+                _gameManager.UpdateGameOver();
+                Destroy(this.gameObject);
+                break;
+        }
+
+/*        if (_lives < 1)
         {
             _spawnManager.StopSpawning();
             _uiManager.UpdateGameOver();
             _gameManager.UpdateGameOver();
             Destroy(this.gameObject);
-        }
+        }*/
 
         
     }
