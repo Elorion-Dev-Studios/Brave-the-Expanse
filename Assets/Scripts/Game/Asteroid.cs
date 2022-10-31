@@ -9,6 +9,10 @@ public class Asteroid : MonoBehaviour
     [SerializeField] float _rotateSpeed = 3.0f;
 
 
+    [SerializeField] GameObject _explosion;
+    [SerializeField] float _asteroidDestroyDelay = 1f;
+
+
     // Update is called once per frame
     void Update()
     {
@@ -21,7 +25,8 @@ public class Asteroid : MonoBehaviour
         if (other.CompareTag("Laser"))
         {
             Destroy(other.gameObject);
-            Destroy(this.gameObject);
+            Instantiate(_explosion, transform.position, Quaternion.identity);
+            Destroy(this.gameObject, _asteroidDestroyDelay);
         }
     }
 

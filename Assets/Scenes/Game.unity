@@ -1488,5 +1488,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: Asteroid
       objectReference: {fileID: 0}
+    - target: {fileID: 7045489103765718704, guid: f7510747af396bf4fadbdce581f80dbd, type: 3}
+      propertyPath: _rotateSpeed
+      value: 15
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f7510747af396bf4fadbdce581f80dbd, type: 3}
