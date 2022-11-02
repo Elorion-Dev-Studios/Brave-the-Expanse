@@ -17,8 +17,6 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private GameObject _laserPrefab;
-    [SerializeField] private AudioClip _laserClip;
-    private AudioSource _audioSource;
     [SerializeField]
     private float _laserOffsetY;
     private Vector3 _laserOffsetVector;
@@ -56,7 +54,11 @@ public class Player : MonoBehaviour
     //score
     private int _score;
 
+    private AudioSource _audioSource;
+    [SerializeField] private AudioClip _laserClip;
+    [SerializeField] private AudioClip _explosionClip;
 
+    private SpriteRenderer _spriteRenderer;
 
 
     void Start()
@@ -85,6 +87,12 @@ public class Player : MonoBehaviour
             Debug.LogError("Player failed to cache reference to Game Manager");
         }
 
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        if(_spriteRenderer == null)
+        {
+            Debug.LogError("Player failed to cache reference to its SpriteRenderer");
+        }
+
         _audioSource = GetComponent<AudioSource>();
         if (_audioSource == null)
         {
@@ -95,8 +103,6 @@ public class Player : MonoBehaviour
             //assign laser clip
             _audioSource.clip = _laserClip;
         }
-
-
     }
 
     void Update()
@@ -198,7 +204,12 @@ public class Player : MonoBehaviour
                 _spawnManager.StopSpawning();
                 _uiManager.UpdateGameOver();
                 _gameManager.UpdateGameOver();
-                Destroy(this.gameObject);
+                _audioSource.clip = _explosionClip;
+                _spriteRenderer.enabled = false;
+                _leftEngineDamage.SetActive(false);
+                _rightEngineDamage.SetActive(false);
+                _audioSource.Play();
+                Destroy(this.gameObject,2.0f);
                 break;
         }
 
