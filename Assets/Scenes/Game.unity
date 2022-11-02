@@ -380,7 +380,6 @@ MonoBehaviour:
   _screenMaxY: 0
   _screenMinY: -3
   _laserPrefab: {fileID: 1405930336046096559, guid: 99b74fdc18872e8439f3d599341df2fa, type: 3}
-  _laserClip: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
   _laserOffsetY: 1
   _fireRate: 0.5
   _powerupDuration: 3
@@ -390,6 +389,8 @@ MonoBehaviour:
   _thrusterObject: {fileID: 321040953}
   _rightEngineDamage: {fileID: 1381644955}
   _leftEngineDamage: {fileID: 149753454}
+  _laserClip: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
+  _explosionClip: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}
 --- !u!212 &316337575
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2210,5 +2211,9 @@ PrefabInstance:
       propertyPath: _rotateSpeed
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 7045489103765718704, guid: f7510747af396bf4fadbdce581f80dbd, type: 3}
+      propertyPath: _explosionClip
+      value: 
+      objectReference: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f7510747af396bf4fadbdce581f80dbd, type: 3}

@@ -24,6 +24,11 @@ public class Enemy : MonoBehaviour
     //enemy animator
     private Animator _animator;
 
+    //enemy AudioSource
+    private AudioSource _audioSource;
+    [SerializeField] private AudioClip _explosionClip;
+
+
     void Start()
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
@@ -36,6 +41,12 @@ public class Enemy : MonoBehaviour
         if(_animator == null)
         {
             Debug.LogError("Enemy failed to cache reference to its Animator");
+        }
+
+        _audioSource = GetComponent<AudioSource>();
+        if (_audioSource == null)
+        {
+            Debug.LogError("Enemy failed to cache reference to its AudioSource");
         }
 
     }
@@ -58,6 +69,8 @@ public class Enemy : MonoBehaviour
             _player.Damage();
             _animator.SetTrigger("OnEnemyDeath");
             _speed = 0;
+            _audioSource.clip = _explosionClip;
+            _audioSource.Play();
             Destroy(this.gameObject,1.5f);
         }
 
@@ -68,6 +81,8 @@ public class Enemy : MonoBehaviour
             _player.IncrementScore(_pointValue);
             _animator.SetTrigger("OnEnemyDeath");
             _speed = 0;
+            _audioSource.clip = _explosionClip;
+            _audioSource.Play();
             Destroy(this.gameObject, 1.5f);
         }
     }

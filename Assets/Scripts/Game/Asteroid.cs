@@ -13,6 +13,9 @@ public class Asteroid : MonoBehaviour
 
     [SerializeField] SpawnManager _spawnManager;
 
+    private AudioSource _audioSource;
+    [SerializeField] private AudioClip _explosionClip;
+
 
     void Start()
     {
@@ -20,6 +23,12 @@ public class Asteroid : MonoBehaviour
         if (_spawnManager == null)
         {
             Debug.LogError("Asteroid cannot cache reference to SpawnManager script");
+        }
+
+        _audioSource = GetComponent<AudioSource>();
+        if(_audioSource == null)
+        {
+            Debug.LogError("Asteroid cannot cache reference to its AudioSource");
         }
     }
 
@@ -37,6 +46,8 @@ public class Asteroid : MonoBehaviour
             Destroy(other.gameObject);
             Instantiate(_explosion, transform.position, Quaternion.identity);
             _spawnManager.StartSpawning();
+            _audioSource.clip = _explosionClip;
+            _audioSource.Play();
             Destroy(this.gameObject, _asteroidDestroyDelay);
 
         }
