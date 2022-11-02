@@ -17,6 +17,9 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private GameObject _laserPrefab;
+    //get reference to laser audio
+    [SerializeField]
+    private AudioSource _laserAudio;
     [SerializeField]
     private float _laserOffsetY;
     private Vector3 _laserOffsetVector;
@@ -137,7 +140,12 @@ public class Player : MonoBehaviour
         {
             Instantiate(_laserPrefab, (transform.position + _laserOffsetVector), Quaternion.identity);
         }
+
+        //play laser audio
+        _laserAudio.Play();
     }
+
+
 
     IEnumerator TripleShotRoutine()
     {
