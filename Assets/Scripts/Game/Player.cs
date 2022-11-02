@@ -17,6 +17,8 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private GameObject _laserPrefab;
+    [SerializeField] private AudioClip _laserClip;
+    private AudioSource _audioSource;
     [SerializeField]
     private float _laserOffsetY;
     private Vector3 _laserOffsetVector;
@@ -83,6 +85,17 @@ public class Player : MonoBehaviour
             Debug.LogError("Player failed to cache reference to Game Manager");
         }
 
+        _audioSource = GetComponent<AudioSource>();
+        if (_audioSource == null)
+        {
+            Debug.LogError("Player failed to cache reference to its AudioSource");
+        }
+        else
+        {
+            //assign laser clip
+            _audioSource.clip = _laserClip;
+        }
+
 
     }
 
@@ -137,6 +150,9 @@ public class Player : MonoBehaviour
         {
             Instantiate(_laserPrefab, (transform.position + _laserOffsetVector), Quaternion.identity);
         }
+
+        //play laser clip
+        _audioSource.Play();
     }
 
     IEnumerator TripleShotRoutine()
