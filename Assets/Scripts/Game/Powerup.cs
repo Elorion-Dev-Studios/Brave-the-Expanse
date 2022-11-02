@@ -12,6 +12,26 @@ public class Powerup : MonoBehaviour
     [SerializeField] // 0=TripleShot; 1=Speed; 2=Shield;
     private int _powerupID;
 
+    private AudioSource _audioSource;
+
+    private SpriteRenderer _spriteRenderer;
+
+    void Start()
+    {
+        _audioSource = GetComponent<AudioSource>();
+        if( _audioSource == null)
+        {
+            Debug.LogError("Powerup failed to cache reference to its AudioSource");
+        }
+
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        if (_spriteRenderer == null)
+        {
+            Debug.LogError("Powerup failed to cache reference to its SpriteRenderer");
+        }
+
+    }
+
 
     void Update()
     {
@@ -47,7 +67,10 @@ public class Powerup : MonoBehaviour
                         break;
                 }
 
-                Destroy(this.gameObject);
+                _audioSource.Play();
+                _spriteRenderer.enabled = false;
+
+                Destroy(this.gameObject,1.0f);
             }
             else
             {
