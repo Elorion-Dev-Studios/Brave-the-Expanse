@@ -8,6 +8,12 @@ public class Laser : MonoBehaviour
     private float _speed = 5f;
     [SerializeField]
     private float _maxY = 7f;
+    [SerializeField]
+    private float _minY = -7f;
+    [SerializeField] // 1 = up, -1 = down
+    private float _direction;
+    [SerializeField] // 0 = player, 1 = enemy
+    private int _laserID;
 
 
     void Update()
@@ -17,9 +23,9 @@ public class Laser : MonoBehaviour
 
     void CalculateMovement()
     {
-        transform.Translate(Vector3.up * _speed * Time.deltaTime);
+        transform.Translate(Vector3.up * _direction * _speed * Time.deltaTime);
 
-        if (transform.position.y > _maxY)
+        if (transform.position.y > _maxY || transform.position.y < _minY)
         {
             if (transform.parent != null)
             {

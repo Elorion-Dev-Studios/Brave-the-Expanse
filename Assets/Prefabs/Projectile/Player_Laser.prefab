@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 8270736890254257951}
   - component: {fileID: 1500472805591824044}
   m_Layer: 0
-  m_Name: Laser
-  m_TagString: Laser
+  m_Name: Player_Laser
+  m_TagString: PlayerProjectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -100,6 +100,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 5
   _maxY: 7
+  _minY: -7
+  _direction: 1
+  _laserID: 0
 --- !u!61 &1500472805591824044
 BoxCollider2D:
   m_ObjectHideFlags: 0

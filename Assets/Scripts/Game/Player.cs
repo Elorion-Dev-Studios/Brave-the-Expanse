@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class Player : MonoBehaviour
 {
@@ -100,7 +101,6 @@ public class Player : MonoBehaviour
         }
         else
         {
-            //assign laser clip
             _audioSource.clip = _laserClip;
         }
     }
@@ -156,8 +156,6 @@ public class Player : MonoBehaviour
         {
             Instantiate(_laserPrefab, (transform.position + _laserOffsetVector), Quaternion.identity);
         }
-
-        //play laser clip
         _audioSource.Play();
     }
 
@@ -195,9 +193,15 @@ public class Player : MonoBehaviour
             case 3:
                 break;
             case 2:
+                _audioSource.clip = _explosionClip;
+                _audioSource.Play();
+                _audioSource.clip = _laserClip;
                 _rightEngineDamage.SetActive(true);
                 break;
             case 1:
+                _audioSource.clip = _explosionClip;
+                _audioSource.Play();
+                _audioSource.clip = _laserClip;
                 _leftEngineDamage.SetActive(true);
                 break;
             default:
@@ -211,17 +215,7 @@ public class Player : MonoBehaviour
                 _audioSource.Play();
                 Destroy(this.gameObject,2.0f);
                 break;
-        }
-
-/*        if (_lives < 1)
-        {
-            _spawnManager.StopSpawning();
-            _uiManager.UpdateGameOver();
-            _gameManager.UpdateGameOver();
-            Destroy(this.gameObject);
-        }*/
-
-        
+        }       
     }
 
     private void DeactivateShield()
@@ -255,5 +249,15 @@ public class Player : MonoBehaviour
         //update ui manager - score text
         _uiManager.UpdateScoreText(_score.ToString());
     }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("EnemyProjectile"))
+        {
+            Destroy(other.gameObject, 0.05f);
+            Damage();
+        }
+    }
+
 
 }
