@@ -76,7 +76,7 @@ public class Player : MonoBehaviour
 
         _shieldObject.SetActive(false);
 
-        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+        _uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
         if (_uiManager == null)
         {
             Debug.LogError("Player failed to cache reference to UI Manager");
