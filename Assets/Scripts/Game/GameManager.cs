@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    //game over?
     private bool _gameOver = false;
 
     void Start()
@@ -16,13 +15,26 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        //if game is over
-        //and user presses R
-        //restart game
 
+        //restart game after game over
         if (Input.GetKeyDown(KeyCode.R) && _gameOver)
         {
             SceneManager.LoadScene(1);
+        }
+
+        //quit game
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            //quit play mode in editor
+            if (UnityEditor.EditorApplication.isPlaying)
+            {
+                UnityEditor.EditorApplication.isPlaying = false;
+            }
+            else
+            {
+                //quit application
+                Application.Quit();
+            }
         }
     }
 
