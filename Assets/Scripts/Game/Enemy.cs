@@ -99,11 +99,10 @@ public class Enemy : MonoBehaviour
             float delayTime = Random.Range(_laserDelayMin, _laserDelayMax);
             _laserDelay = new WaitForSeconds(delayTime);
 
-            GameObject newLaser = Instantiate(_laser, transform.position + _laserOffsetVector, Quaternion.identity);
-            //newLaser.transform.parent = this.transform;
-
             //play laser clip
             _audioSource.Play();
+
+            GameObject newLaser = Instantiate(_laser, transform.position + _laserOffsetVector, Quaternion.identity);            //newLaser.transform.parent = this.transform;
 
             yield return _laserDelay;
         }
