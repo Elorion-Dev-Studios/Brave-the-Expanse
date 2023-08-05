@@ -27,7 +27,20 @@ public class Enemy : MonoBehaviour
     //enemy AudioSource
     private AudioSource _audioSource;
     [SerializeField] private AudioClip _explosionClip;
+    [SerializeField] private AudioClip _laserClip;
 
+    //enemy laser
+    [SerializeField] private GameObject _laser;
+    private bool _firingLasers = false;
+    private WaitForSeconds _laserDelay = new WaitForSeconds(3.0f);
+    [SerializeField]
+    private float _laserOffsetY = -1.0f;
+    private Vector3 _laserOffsetVector;
+    [SerializeField]
+    private float _laserDelayMin = 2.0f;
+    [SerializeField]
+    private float _laserDelayMax = 6.0f;
+    private IEnumerator _fireLaser;
 
     void Start()
     {
@@ -48,7 +61,6 @@ public class Enemy : MonoBehaviour
         {
             Debug.LogError("Enemy failed to cache reference to its AudioSource");
         }
-
     }
 
     void Update()
@@ -60,7 +72,42 @@ public class Enemy : MonoBehaviour
             float randomX = Random.Range(_minX, _maxX);
             transform.position = new Vector3(randomX, _maxY,0);
         }
+
+        //check laser fire flag
+        if (_firingLasers == false)
+        {
+            //enable laser fire flag
+            _firingLasers = true;
+            //set laser audio clip
+            _audioSource.clip = _laserClip;
+            //set laser position offset
+            _laserOffsetVector = new Vector3(0, _laserOffsetY, 0);
+            //start laser fire routine
+            _fireLaser = FireLaserRoutine();
+            StartCoroutine(_fireLaser);
+        }
+        
     }
+
+    IEnumerator FireLaserRoutine()
+    {
+        //wait for delay
+        yield return _laserDelay;
+        while (_firingLasers)
+        {
+            //get new delay 
+            float delayTime = Random.Range(_laserDelayMin, _laserDelayMax);
+            _laserDelay = new WaitForSeconds(delayTime);
+
+            //play laser clip
+            _audioSource.Play();
+
+            GameObject newLaser = Instantiate(_laser, transform.position + _laserOffsetVector, Quaternion.identity);            //newLaser.transform.parent = this.transform;
+
+            yield return _laserDelay;
+        }
+    }
+
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -71,20 +118,23 @@ public class Enemy : MonoBehaviour
             _speed = 0;
             _audioSource.clip = _explosionClip;
             _audioSource.Play();
+            _firingLasers = false;
             Destroy(this.gameObject.GetComponent<Collider2D>());
+            StopCoroutine(_fireLaser);
             Destroy(this.gameObject,1.5f);
         }
 
-        if (other.CompareTag("Laser"))
+        if (other.CompareTag("PlayerProjectile"))
         {
             Destroy(other.gameObject,0.25f);
-            //add score
             _player.IncrementScore(_pointValue);
             _animator.SetTrigger("OnEnemyDeath");
             _speed = 0;
             _audioSource.clip = _explosionClip;
             _audioSource.Play();
+            _firingLasers = false;
             Destroy(this.gameObject.GetComponent<Collider2D>());
+            StopCoroutine(_fireLaser);
             Destroy(this.gameObject, 1.5f);
         }
     }
