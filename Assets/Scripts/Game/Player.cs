@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
     #region Overdrive_Props
     private bool _overdriveReady = false;
     private bool _overdriveActive = false;
-    [SerializeField] private float _overdriveSpeed = 4.0f; 
+    [SerializeField] private float _overdriveSpeed = 4.0f;
     #endregion
 
     #region ScreenBounds_Props
@@ -25,7 +25,9 @@ public class Player : MonoBehaviour
     [SerializeField] private float _laserOffsetY;
     private Vector3 _laserOffsetVector;
     [SerializeField] private float _fireRate = 0.5f;
-    private float _nextFire = -1f; 
+    private float _nextFire = -1f;
+    //add laser count
+    [SerializeField] private int _laserCount = 15;
     #endregion
 
     #region Powerup_Props
@@ -54,8 +56,10 @@ public class Player : MonoBehaviour
     #region Audio_Props
     private AudioSource _audioSource;
     [SerializeField] private AudioClip _laserClip;
+    [SerializeField] private AudioClip _lastLaserClip;
     [SerializeField] private AudioClip _explosionClip;
     [SerializeField] private AudioClip _shieldHitClip;
+
     #endregion
 
     private SpriteRenderer _spriteRenderer;
@@ -66,7 +70,7 @@ public class Player : MonoBehaviour
         transform.position = Vector3.zero;
         _direction = Vector3.zero;
         _laserOffsetVector = new Vector3(0, _laserOffsetY, 0);
-        
+
         _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
         if (_spawnManager == null)
         {
@@ -88,13 +92,13 @@ public class Player : MonoBehaviour
         }
 
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        if(_spriteRenderer == null)
+        if (_spriteRenderer == null)
         {
             Debug.LogError("Player failed to cache reference to its SpriteRenderer");
         }
 
         _shieldRenderer = _shieldObject.GetComponent<SpriteRenderer>();
-        if(_shieldRenderer == null)
+        if (_shieldRenderer == null)
         {
             Debug.LogError("Player failed to cache reference its shield SpriteRenderer");
         }
@@ -116,7 +120,8 @@ public class Player : MonoBehaviour
 
         CalculateMovement(currentSpeed);
 
-        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _nextFire )
+        //add check for laser count
+        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _nextFire && _laserCount > 0)
         {
             FireLaser();
         }
@@ -125,7 +130,7 @@ public class Player : MonoBehaviour
     float CalculateSpeed()
     {
         //speedBoost powerup trumps
-        if (_speedBoostActive )
+        if (_speedBoostActive)
         {
             return _speedBoost;
         }
@@ -164,6 +169,8 @@ public class Player : MonoBehaviour
     void FireLaser()
     {
         _nextFire = Time.time + _fireRate;
+        //decrement laser count
+        _laserCount -= 1;
 
         if (_tripleShotActive)
         {
@@ -173,8 +180,20 @@ public class Player : MonoBehaviour
         {
             Instantiate(_laserPrefab, (transform.position + _laserOffsetVector), Quaternion.identity);
         }
-        _audioSource.clip = _laserClip;
-        _audioSource.Play();
+
+        //check if last laser fired
+        if (_laserCount > 0)
+        {
+            //if not, play standard laser sound
+            _audioSource.clip = _laserClip;
+            _audioSource.Play();
+        }
+        else
+        {
+            //if last laser fired, play last laser sound
+            _audioSource.clip = _lastLaserClip;
+            _audioSource.Play();
+        }
     }
 
     IEnumerator TripleShotRoutine()
@@ -221,7 +240,7 @@ public class Player : MonoBehaviour
             case 3:
                 break;
             case 2:
-               _rightEngineDamage.SetActive(true);
+                _rightEngineDamage.SetActive(true);
                 break;
             case 1:
                 _leftEngineDamage.SetActive(true);
@@ -242,7 +261,7 @@ public class Player : MonoBehaviour
     private void DamageShield()
     {
         _shieldHealth -= 1;
-        
+
         //hit audio
         _audioSource.clip = _shieldHitClip;
         _audioSource.Play();
@@ -254,7 +273,7 @@ public class Player : MonoBehaviour
             case 3:
                 break;
             case 2:
-                _shieldRenderer.color = new Color (currentColor.r, currentColor.g, currentColor.b, .75f);
+                _shieldRenderer.color = new Color(currentColor.r, currentColor.g, currentColor.b, .75f);
                 break;
             case 1:
                 _shieldRenderer.color = new Color(currentColor.r, currentColor.g, currentColor.b, .50f);
