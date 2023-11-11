@@ -56,7 +56,7 @@ public class Player : MonoBehaviour
     #region Audio_Props
     private AudioSource _audioSource;
     [SerializeField] private AudioClip _laserClip;
-    [SerializeField] private AudioClip _lastLaserClip;
+    [SerializeField] private AudioClip _noAmmoClip;
     [SerializeField] private AudioClip _explosionClip;
     [SerializeField] private AudioClip _shieldHitClip;
 
@@ -124,6 +124,15 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && Time.time > _nextFire && _laserCount > 0)
         {
             FireLaser();
+        } 
+        else if (Input.GetKeyDown(KeyCode.Space) && Time.time > _nextFire && _laserCount <= 0)
+        {
+            //play no ammo clip
+            _audioSource.clip = _noAmmoClip;
+            _audioSource.Play();
+
+            //ui alert -- no ammo
+            _uiManager.AlertNoAmmo();
         }
     }
 
@@ -180,22 +189,16 @@ public class Player : MonoBehaviour
         {
             Instantiate(_laserPrefab, (transform.position + _laserOffsetVector), Quaternion.identity);
         }
-
-        //check if last laser fired
-        if (_laserCount > 0)
-        {
-            //if not, play standard laser sound
-            _audioSource.clip = _laserClip;
-            _audioSource.Play();
-        }
-        else
-        {
-            //if last laser fired, play last laser sound
-            _audioSource.clip = _lastLaserClip;
-            _audioSource.Play();
-        }
+        
+        // play laser sound
+        _audioSource.clip = _laserClip;
+        _audioSource.Play();
 
         _uiManager.UpdateAmmoText(_laserCount.ToString());
+        if (_laserCount == 0) 
+        {
+            _uiManager.AlertNoAmmo();
+        }
     }
 
     IEnumerator TripleShotRoutine()

@@ -22,6 +22,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image _ammoImg;
 
     public enum AmmoType { Laser, TripleShot  }
+
+    private float _noAmmoFlickerSpeed = 0.5f;
     #endregion
 
     #region GameOver_Props
@@ -68,6 +70,13 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    private IEnumerator NoAmmoFlashRoutine()
+    {
+        _ammoText.color = Color.red;
+        yield return new WaitForSeconds(_noAmmoFlickerSpeed);
+        _ammoText.color = Color.white;
+    }
+
     public void UpdateScoreText(string scoreValue)
     {
         _scoreText.text = "Score: " + scoreValue;
@@ -93,6 +102,11 @@ public class UIManager : MonoBehaviour
     public void UpdateAmmoText(string ammoCount)
     {
         _ammoText.text = ammoCount;
+    }
+
+    public void AlertNoAmmo()
+    {
+        StartCoroutine(NoAmmoFlashRoutine());
     }
 
     public void QuitMenu()

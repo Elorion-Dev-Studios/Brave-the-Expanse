@@ -454,7 +454,7 @@ MonoBehaviour:
   _rightEngineDamage: {fileID: 1381644955}
   _leftEngineDamage: {fileID: 149753454}
   _laserClip: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
-  _lastLaserClip: {fileID: 8300000, guid: 4310474905e266640852f43bd609a1a4, type: 3}
+  _noAmmoClip: {fileID: 8300000, guid: 4310474905e266640852f43bd609a1a4, type: 3}
   _explosionClip: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}
   _shieldHitClip: {fileID: 8300000, guid: ab297b593498a6e47ba84de770477cbe, type: 3}
 --- !u!212 &316337575
