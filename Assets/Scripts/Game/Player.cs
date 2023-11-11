@@ -7,22 +7,28 @@ public class Player : MonoBehaviour
     [SerializeField] private float _speed = 3.5f;
     private Vector3 _direction;
     [SerializeField] private int _lives = 3;
+    private int _score;
 
-    //overdrive
+    #region Overdrive_Props
     private bool _overdriveReady = false;
     private bool _overdriveActive = false;
-    [SerializeField] private float _overdriveSpeed = 4.0f;
+    [SerializeField] private float _overdriveSpeed = 4.0f; 
+    #endregion
 
+    #region ScreenBounds_Props
     [SerializeField] private float _screenMaxX, _screenMinX;
     [SerializeField] private float _screenMaxY, _screenMinY;
+    #endregion
 
+    #region Laser_Props
     [SerializeField] private GameObject _laserPrefab;
     [SerializeField] private float _laserOffsetY;
     private Vector3 _laserOffsetVector;
     [SerializeField] private float _fireRate = 0.5f;
-    private float _nextFire = -1f;
+    private float _nextFire = -1f; 
+    #endregion
 
-    //powerups
+    #region Powerup_Props
     [SerializeField] private float _powerupDuration = 3.0f;
 
     private bool _tripleShotActive;
@@ -30,27 +36,27 @@ public class Player : MonoBehaviour
 
     private bool _speedBoostActive;
     [SerializeField] private float _speedBoost = 5.0f;
-
-    private bool _shieldActive;
-    [SerializeField] private GameObject _shieldObject;
-
     private bool _thrusterActive;
     [SerializeField] private GameObject _thrusterObject;
 
-    [SerializeField] private GameObject _rightEngineDamage, _leftEngineDamage;
+    private bool _shieldActive;
+    private int _shieldHealth = 3;
+    [SerializeField] private GameObject _shieldObject;
+    private SpriteRenderer _shieldRenderer;
+    #endregion
 
+    [SerializeField] private GameObject _rightEngineDamage, _leftEngineDamage;
 
     private SpawnManager _spawnManager;
     private GameManager _gameManager;
-
-    //ui manager
     private UIManager _uiManager;
-    //score
-    private int _score;
 
+    #region Audio_Props
     private AudioSource _audioSource;
     [SerializeField] private AudioClip _laserClip;
     [SerializeField] private AudioClip _explosionClip;
+    [SerializeField] private AudioClip _shieldHitClip;
+    #endregion
 
     private SpriteRenderer _spriteRenderer;
 
@@ -87,6 +93,12 @@ public class Player : MonoBehaviour
             Debug.LogError("Player failed to cache reference to its SpriteRenderer");
         }
 
+        _shieldRenderer = _shieldObject.GetComponent<SpriteRenderer>();
+        if(_shieldRenderer == null)
+        {
+            Debug.LogError("Player failed to cache reference its shield SpriteRenderer");
+        }
+
         _audioSource = GetComponent<AudioSource>();
         if (_audioSource == null)
         {
@@ -100,10 +112,8 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        //determine speed value
         float currentSpeed = CalculateSpeed();
 
-        //calculate movement with current speed value
         CalculateMovement(currentSpeed);
 
         if (Input.GetKeyDown(KeyCode.Space) && Time.time > _nextFire )
@@ -114,19 +124,18 @@ public class Player : MonoBehaviour
 
     float CalculateSpeed()
     {
-        //if speedBoost powerup trumps all
+        //speedBoost powerup trumps
         if (_speedBoostActive )
         {
             return _speedBoost;
         }
 
-        //toggle overdrive if Left-Shift pressed
+        //toggle overdrive when Left-Shift pressed
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             _overdriveActive = _overdriveActive ? false : true;
         }
 
-        // if overdrive Active, return overdrive -- otherwise, base speed
         return _overdriveActive ? _overdriveSpeed : _speed;
     }
 
@@ -164,6 +173,7 @@ public class Player : MonoBehaviour
         {
             Instantiate(_laserPrefab, (transform.position + _laserOffsetVector), Quaternion.identity);
         }
+        _audioSource.clip = _laserClip;
         _audioSource.Play();
     }
 
@@ -188,42 +198,71 @@ public class Player : MonoBehaviour
     {
         if (_shieldActive)
         {
-            DeactivateShield();
-            return;
+            DamageShield();
         }
+        else
+        {
+            DamagePlayer();
+        }
+    }
 
+    private void DamagePlayer()
+    {
         _lives -= 1;
 
         _uiManager.UpdateLivesImg(_lives);
+
+        //hit audio
+        _audioSource.clip = _explosionClip;
+        _audioSource.Play();
 
         switch (_lives)
         {
             case 3:
                 break;
             case 2:
-                _audioSource.clip = _explosionClip;
-                _audioSource.Play();
-                _audioSource.clip = _laserClip;
-                _rightEngineDamage.SetActive(true);
+               _rightEngineDamage.SetActive(true);
                 break;
             case 1:
-                _audioSource.clip = _explosionClip;
-                _audioSource.Play();
-                _audioSource.clip = _laserClip;
                 _leftEngineDamage.SetActive(true);
                 break;
             default:
                 _spawnManager.StopSpawning();
                 _uiManager.UpdateGameOver();
                 _gameManager.UpdateGameOver();
-                _audioSource.clip = _explosionClip;
                 _spriteRenderer.enabled = false;
                 _leftEngineDamage.SetActive(false);
                 _rightEngineDamage.SetActive(false);
-                _audioSource.Play();
-                Destroy(this.gameObject,2.0f);
+                Destroy(this.gameObject, 2.0f);
                 break;
-        }       
+        }
+
+    }
+
+    private void DamageShield()
+    {
+        _shieldHealth -= 1;
+        
+        //hit audio
+        _audioSource.clip = _shieldHitClip;
+        _audioSource.Play();
+
+        Color currentColor = _shieldRenderer.color;
+
+        switch (_shieldHealth)
+        {
+            case 3:
+                break;
+            case 2:
+                _shieldRenderer.color = new Color (currentColor.r, currentColor.g, currentColor.b, .75f);
+                break;
+            case 1:
+                _shieldRenderer.color = new Color(currentColor.r, currentColor.g, currentColor.b, .50f);
+                break;
+            default:
+                DeactivateShield();
+                break;
+        }
     }
 
     private void DeactivateShield()
@@ -232,6 +271,13 @@ public class Player : MonoBehaviour
         _shieldObject.SetActive(false);
     }
 
+    public void ActivateShield()
+    {
+        _shieldActive = true;
+        _shieldHealth = 3;
+        _shieldRenderer.color = Color.white;
+        _shieldObject.SetActive(true);
+    }
 
     public void ActivateTripleShot()
     {
@@ -241,12 +287,6 @@ public class Player : MonoBehaviour
     public void ActivateSpeedBoost()
     {
         StartCoroutine(SpeedBoostRoutine());
-    }
-
-    public void ActivateShield()
-    {
-        _shieldActive = true;
-        _shieldObject.SetActive(true);
     }
 
     public void IncrementScore(int points)

@@ -432,9 +432,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 3.75
   _lives: 3
-  _overdriveReady: 0
-  _overdriveActive: 0
-  _overdriveSpeed: 4.5
+  _overdriveSpeed: 4
   _screenMaxX: 8.75
   _screenMinX: -8.75
   _screenMaxY: 0
@@ -445,12 +443,13 @@ MonoBehaviour:
   _powerupDuration: 3
   _tripleShotPrefab: {fileID: 1571689174186493121, guid: 6910f959aabbc914d95b05bfe6af47f6, type: 3}
   _speedBoost: 5.5
-  _shieldObject: {fileID: 1206675004}
   _thrusterObject: {fileID: 321040953}
+  _shieldObject: {fileID: 1206675004}
   _rightEngineDamage: {fileID: 1381644955}
   _leftEngineDamage: {fileID: 149753454}
   _laserClip: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
   _explosionClip: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}
+  _shieldHitClip: {fileID: 8300000, guid: ab297b593498a6e47ba84de770477cbe, type: 3}
 --- !u!212 &316337575
 SpriteRenderer:
   m_ObjectHideFlags: 0
