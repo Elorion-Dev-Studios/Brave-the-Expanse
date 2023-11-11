@@ -7,22 +7,28 @@ public class Player : MonoBehaviour
     [SerializeField] private float _speed = 3.5f;
     private Vector3 _direction;
     [SerializeField] private int _lives = 3;
+    private int _score;
 
-    //overdrive
+    #region Overdrive_Props
     private bool _overdriveReady = false;
     private bool _overdriveActive = false;
-    [SerializeField] private float _overdriveSpeed = 4.0f;
+    [SerializeField] private float _overdriveSpeed = 4.0f; 
+    #endregion
 
+    #region ScreenBounds_Props
     [SerializeField] private float _screenMaxX, _screenMinX;
     [SerializeField] private float _screenMaxY, _screenMinY;
+    #endregion
 
+    #region Laser_Props
     [SerializeField] private GameObject _laserPrefab;
     [SerializeField] private float _laserOffsetY;
     private Vector3 _laserOffsetVector;
     [SerializeField] private float _fireRate = 0.5f;
-    private float _nextFire = -1f;
+    private float _nextFire = -1f; 
+    #endregion
 
-    //powerups
+    #region Powerup_Props
     [SerializeField] private float _powerupDuration = 3.0f;
 
     private bool _tripleShotActive;
@@ -30,28 +36,25 @@ public class Player : MonoBehaviour
 
     private bool _speedBoostActive;
     [SerializeField] private float _speedBoost = 5.0f;
+    private bool _thrusterActive;
+    [SerializeField] private GameObject _thrusterObject;
 
     private bool _shieldActive;
     private int _shieldHealth = 3;
     [SerializeField] private GameObject _shieldObject;
-
-    private bool _thrusterActive;
-    [SerializeField] private GameObject _thrusterObject;
+    #endregion
 
     [SerializeField] private GameObject _rightEngineDamage, _leftEngineDamage;
 
-
     private SpawnManager _spawnManager;
     private GameManager _gameManager;
-
-    //ui manager
     private UIManager _uiManager;
-    //score
-    private int _score;
 
+    #region Audio_Props
     private AudioSource _audioSource;
     [SerializeField] private AudioClip _laserClip;
-    [SerializeField] private AudioClip _explosionClip;
+    [SerializeField] private AudioClip _explosionClip; 
+    #endregion
 
     private SpriteRenderer _spriteRenderer;
 
@@ -101,10 +104,8 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        //determine speed value
         float currentSpeed = CalculateSpeed();
 
-        //calculate movement with current speed value
         CalculateMovement(currentSpeed);
 
         if (Input.GetKeyDown(KeyCode.Space) && Time.time > _nextFire )
@@ -121,7 +122,7 @@ public class Player : MonoBehaviour
             return _speedBoost;
         }
 
-        //toggle overdrive if Left-Shift pressed
+        //toggle overdrive when Left-Shift pressed
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             _overdriveActive = _overdriveActive ? false : true;
