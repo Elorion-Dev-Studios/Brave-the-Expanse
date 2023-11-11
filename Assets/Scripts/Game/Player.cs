@@ -32,6 +32,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float _speedBoost = 5.0f;
 
     private bool _shieldActive;
+    private int _shieldHealth = 3;
     [SerializeField] private GameObject _shieldObject;
 
     private bool _thrusterActive;
@@ -114,7 +115,7 @@ public class Player : MonoBehaviour
 
     float CalculateSpeed()
     {
-        //if speedBoost powerup trumps all
+        //speedBoost powerup trumps
         if (_speedBoostActive )
         {
             return _speedBoost;
@@ -126,7 +127,6 @@ public class Player : MonoBehaviour
             _overdriveActive = _overdriveActive ? false : true;
         }
 
-        // if overdrive Active, return overdrive -- otherwise, base speed
         return _overdriveActive ? _overdriveSpeed : _speed;
     }
 
@@ -188,42 +188,72 @@ public class Player : MonoBehaviour
     {
         if (_shieldActive)
         {
-            DeactivateShield();
-            return;
+            DamageShield();
         }
+        else
+        {
+            DamagePlayer();
+        }
+    }
 
+    private void DamagePlayer()
+    {
         _lives -= 1;
 
         _uiManager.UpdateLivesImg(_lives);
+
+        //hit audio
+        _audioSource.clip = _explosionClip;
+        _audioSource.Play();
+        _audioSource.clip = _laserClip;
 
         switch (_lives)
         {
             case 3:
                 break;
             case 2:
-                _audioSource.clip = _explosionClip;
-                _audioSource.Play();
-                _audioSource.clip = _laserClip;
-                _rightEngineDamage.SetActive(true);
+               _rightEngineDamage.SetActive(true);
                 break;
             case 1:
-                _audioSource.clip = _explosionClip;
-                _audioSource.Play();
-                _audioSource.clip = _laserClip;
                 _leftEngineDamage.SetActive(true);
                 break;
             default:
                 _spawnManager.StopSpawning();
                 _uiManager.UpdateGameOver();
                 _gameManager.UpdateGameOver();
-                _audioSource.clip = _explosionClip;
                 _spriteRenderer.enabled = false;
                 _leftEngineDamage.SetActive(false);
                 _rightEngineDamage.SetActive(false);
-                _audioSource.Play();
-                Destroy(this.gameObject,2.0f);
+                Destroy(this.gameObject, 2.0f);
                 break;
-        }       
+        }
+    }
+
+    private void DamageShield()
+    {
+        _shieldHealth -= 1;
+
+        //hit shield
+        //shield hit sound
+            //_audioSource.clip = _explosionClip;
+            //_audioSource.Play();
+        //reset to laser sound
+        _audioSource.clip = _laserClip;
+
+        switch (_shieldHealth)
+        {
+            case 3:
+                break;
+            case 2:
+                //damage shield in UI - 1st hit
+                break;
+            case 1:
+                //damage shield in UI - 2nd hit
+                break;
+            default:
+                DeactivateShield();
+                break;
+        }
     }
 
     private void DeactivateShield()
@@ -232,6 +262,12 @@ public class Player : MonoBehaviour
         _shieldObject.SetActive(false);
     }
 
+    public void ActivateShield()
+    {
+        _shieldActive = true;
+        _shieldHealth = 3;
+        _shieldObject.SetActive(true);
+    }
 
     public void ActivateTripleShot()
     {
@@ -241,12 +277,6 @@ public class Player : MonoBehaviour
     public void ActivateSpeedBoost()
     {
         StartCoroutine(SpeedBoostRoutine());
-    }
-
-    public void ActivateShield()
-    {
-        _shieldActive = true;
-        _shieldObject.SetActive(true);
     }
 
     public void IncrementScore(int points)
