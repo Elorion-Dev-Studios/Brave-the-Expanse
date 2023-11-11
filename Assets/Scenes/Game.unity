@@ -377,6 +377,11 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 482c8e4c0346b704aa5f1760c3c989d5, type: 3}
   - {fileID: 21300000, guid: 9fe6f40efddf0b64fb68a3382b14a4db, type: 3}
   _livesImg: {fileID: 1271152356}
+  _ammoText: {fileID: 1243345368}
+  _ammoSprites:
+  - {fileID: 21300000, guid: a1b010fd1860f7547acde70d1af7908e, type: 3}
+  - {fileID: 21300000, guid: 0d8a36eb2a7ba9846a682a6ed3c6cbf2, type: 3}
+  _ammoImg: {fileID: 736022656}
   _gameOverText: {fileID: 756051026}
   _restartText: {fileID: 453876611}
   _gameOverVerbiage: GAME OVER

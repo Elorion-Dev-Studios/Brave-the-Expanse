@@ -194,6 +194,8 @@ public class Player : MonoBehaviour
             _audioSource.clip = _lastLaserClip;
             _audioSource.Play();
         }
+
+        _uiManager.UpdateAmmoText(_laserCount.ToString());
     }
 
     IEnumerator TripleShotRoutine()
