@@ -54,7 +54,8 @@ public class Player : MonoBehaviour
     #region Audio_Props
     private AudioSource _audioSource;
     [SerializeField] private AudioClip _laserClip;
-    [SerializeField] private AudioClip _explosionClip; 
+    [SerializeField] private AudioClip _explosionClip;
+    [SerializeField] private AudioClip _shieldHitClip;
     #endregion
 
     private SpriteRenderer _spriteRenderer;
@@ -172,6 +173,7 @@ public class Player : MonoBehaviour
         {
             Instantiate(_laserPrefab, (transform.position + _laserOffsetVector), Quaternion.identity);
         }
+        _audioSource.clip = _laserClip;
         _audioSource.Play();
     }
 
@@ -213,7 +215,6 @@ public class Player : MonoBehaviour
         //hit audio
         _audioSource.clip = _explosionClip;
         _audioSource.Play();
-        _audioSource.clip = _laserClip;
 
         switch (_lives)
         {
@@ -235,18 +236,16 @@ public class Player : MonoBehaviour
                 Destroy(this.gameObject, 2.0f);
                 break;
         }
+
     }
 
     private void DamageShield()
     {
         _shieldHealth -= 1;
         
-        //hit shield
-        //shield hit sound
-            //_audioSource.clip = _explosionClip;
-            //_audioSource.Play();
-        //reset to laser sound
-        _audioSource.clip = _laserClip;
+        //hit audio
+        _audioSource.clip = _shieldHitClip;
+        _audioSource.Play();
 
         Color currentColor = _shieldRenderer.color;
 
