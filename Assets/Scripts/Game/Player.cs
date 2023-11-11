@@ -1,45 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField]
-    private float _speed = 3.5f;
+    [SerializeField] private float _speed = 3.5f;
     private Vector3 _direction;
-    [SerializeField]
-    private int _lives = 3;
+    [SerializeField] private int _lives = 3;
 
-    [SerializeField]
-    private float _screenMaxX, _screenMinX;
-    [SerializeField]
-    private float _screenMaxY, _screenMinY;
+    //overdrive
+    private bool _overdriveReady = false;
+    private bool _overdriveActive = false;
+    [SerializeField] private float _overdriveSpeed = 4.0f;
 
-    [SerializeField]
-    private GameObject _laserPrefab;
-    [SerializeField]
-    private float _laserOffsetY;
+    [SerializeField] private float _screenMaxX, _screenMinX;
+    [SerializeField] private float _screenMaxY, _screenMinY;
+
+    [SerializeField] private GameObject _laserPrefab;
+    [SerializeField] private float _laserOffsetY;
     private Vector3 _laserOffsetVector;
-    [SerializeField]
-    private float _fireRate = 0.5f;
+    [SerializeField] private float _fireRate = 0.5f;
     private float _nextFire = -1f;
 
-
-    [SerializeField]
-    private float _powerupDuration = 3.0f;
+    //powerups
+    [SerializeField] private float _powerupDuration = 3.0f;
 
     private bool _tripleShotActive;
-    [SerializeField]
-    private GameObject _tripleShotPrefab;
+    [SerializeField] private GameObject _tripleShotPrefab;
 
     private bool _speedBoostActive;
-    [SerializeField]
-    private float _speedBoost = 5.0f;
+    [SerializeField] private float _speedBoost = 5.0f;
 
     private bool _shieldActive;
-    [SerializeField]
-    private GameObject _shieldObject;
+    [SerializeField] private GameObject _shieldObject;
 
     private bool _thrusterActive;
     [SerializeField] private GameObject _thrusterObject;
@@ -107,19 +100,34 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if (_speedBoostActive)
-        {
-            CalculateMovement(_speedBoost);
-        }
-        else
-        {
-            CalculateMovement(_speed);
-        }
+        //determine speed value
+        float currentSpeed = CalculateSpeed();
+
+        //calculate movement with current speed value
+        CalculateMovement(currentSpeed);
 
         if (Input.GetKeyDown(KeyCode.Space) && Time.time > _nextFire )
         {
             FireLaser();
         }
+    }
+
+    float CalculateSpeed()
+    {
+        //if speedBoost powerup trumps all
+        if (_speedBoostActive )
+        {
+            return _speedBoost;
+        }
+
+        //toggle overdrive if Left-Shift pressed
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            _overdriveActive = _overdriveActive ? false : true;
+        }
+
+        // if overdrive Active, return overdrive -- otherwise, base speed
+        return _overdriveActive ? _overdriveSpeed : _speed;
     }
 
     void CalculateMovement(float speed)
@@ -241,12 +249,9 @@ public class Player : MonoBehaviour
         _shieldObject.SetActive(true);
     }
 
-    //public method to update score
     public void IncrementScore(int points)
     {
-        //increment score by 10
         _score += points;
-        //update ui manager - score text
         _uiManager.UpdateScoreText(_score.ToString());
     }
 
@@ -258,6 +263,5 @@ public class Player : MonoBehaviour
             Damage();
         }
     }
-
 
 }

@@ -116,8 +116,7 @@ public class Enemy : MonoBehaviour
             _player.Damage();
             _animator.SetTrigger("OnEnemyDeath");
             _speed = 0;
-            _audioSource.clip = _explosionClip;
-            _audioSource.Play();
+            _audioSource.PlayOneShot(_explosionClip);
             _firingLasers = false;
             Destroy(this.gameObject.GetComponent<Collider2D>());
             StopCoroutine(_fireLaser);
@@ -130,8 +129,7 @@ public class Enemy : MonoBehaviour
             _player.IncrementScore(_pointValue);
             _animator.SetTrigger("OnEnemyDeath");
             _speed = 0;
-            _audioSource.clip = _explosionClip;
-            _audioSource.Play();
+            _audioSource.PlayOneShot(_explosionClip);
             _firingLasers = false;
             Destroy(this.gameObject.GetComponent<Collider2D>());
             StopCoroutine(_fireLaser);

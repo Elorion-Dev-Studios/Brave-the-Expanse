@@ -432,16 +432,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 3.75
   _lives: 3
+  _overdriveReady: 0
+  _overdriveActive: 0
+  _overdriveSpeed: 4.5
   _screenMaxX: 8.75
   _screenMinX: -8.75
   _screenMaxY: 0
   _screenMinY: -3
   _laserPrefab: {fileID: 1405930336046096559, guid: 99b74fdc18872e8439f3d599341df2fa, type: 3}
-  _laserOffsetY: 1
+  _laserOffsetY: 0.8
   _fireRate: 0.5
   _powerupDuration: 3
   _tripleShotPrefab: {fileID: 1571689174186493121, guid: 6910f959aabbc914d95b05bfe6af47f6, type: 3}
-  _speedBoost: 5
+  _speedBoost: 5.5
   _shieldObject: {fileID: 1206675004}
   _thrusterObject: {fileID: 321040953}
   _rightEngineDamage: {fileID: 1381644955}
@@ -510,7 +513,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1206675005}
@@ -2005,8 +2008,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 100, y: -50}
-  m_SizeDelta: {x: 150, y: 100}
+  m_AnchoredPosition: {x: 65, y: -30}
+  m_SizeDelta: {x: 120, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1271152356
 MonoBehaviour:
@@ -3000,8 +3003,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -85, y: -20}
-  m_SizeDelta: {x: 150, y: 40}
+  m_AnchoredPosition: {x: -85, y: -15}
+  m_SizeDelta: {x: 150, y: 120}
   m_Pivot: {x: 0.50000006, y: 0.49999997}
 --- !u!114 &1967221659
 MonoBehaviour:
@@ -3050,8 +3053,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 16
+  m_fontSizeBase: 16
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 0
@@ -3237,9 +3240,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1555275290706418708, guid: f7510747af396bf4fadbdce581f80dbd, type: 3}
-      propertyPath: m_RootOrder
-      value: 9
+    - target: {fileID: -3229248089586407877, guid: f7510747af396bf4fadbdce581f80dbd, type: 3}
+      propertyPath: m_Radius
+      value: 1.1227267
+      objectReference: {fileID: 0}
+    - target: {fileID: -3229248089586407877, guid: f7510747af396bf4fadbdce581f80dbd, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.035758812
+      objectReference: {fileID: 0}
+    - target: {fileID: -3229248089586407877, guid: f7510747af396bf4fadbdce581f80dbd, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.060354967
       objectReference: {fileID: 0}
     - target: {fileID: 1555275290706418708, guid: f7510747af396bf4fadbdce581f80dbd, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3285,18 +3296,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Asteroid
       objectReference: {fileID: 0}
-    - target: {fileID: 2806915611324125542, guid: f7510747af396bf4fadbdce581f80dbd, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7045489103765718704, guid: f7510747af396bf4fadbdce581f80dbd, type: 3}
-      propertyPath: _rotateSpeed
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 7045489103765718704, guid: f7510747af396bf4fadbdce581f80dbd, type: 3}
-      propertyPath: _explosionClip
-      value: 
-      objectReference: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
