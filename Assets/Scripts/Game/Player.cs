@@ -201,8 +201,11 @@ public class Player : MonoBehaviour
     IEnumerator TripleShotRoutine()
     {
         _tripleShotActive = true;
+        _uiManager.UpdateAmmoImg(UIManager.AmmoType.TripleShot);
         yield return new WaitForSeconds(_powerupDuration);
         _tripleShotActive = false;
+        _uiManager.UpdateAmmoImg(UIManager.AmmoType.Laser);
+
     }
 
     IEnumerator SpeedBoostRoutine()

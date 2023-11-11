@@ -20,6 +20,8 @@ public class UIManager : MonoBehaviour
     //0 - single laser, 1 - triple laser
     [SerializeField] private Sprite[] _ammoSprites; 
     [SerializeField] private Image _ammoImg;
+
+    public enum AmmoType { Laser, TripleShot  }
     #endregion
 
     #region GameOver_Props
@@ -47,6 +49,7 @@ public class UIManager : MonoBehaviour
         }
 
         _scoreText.text = "Score: 0";
+        _ammoText.text = "15";
         _livesImg.sprite = _livesSprites[3];
         _gameOverText.text = _gameOverVerbiage;
         _gameOverText.gameObject.SetActive(false);
@@ -82,9 +85,9 @@ public class UIManager : MonoBehaviour
         StartCoroutine(GameOverFlashRoutine());
     }
 
-    public void UpdateAmmoImg()
+    public void UpdateAmmoImg(AmmoType activeAmmo)
     {
-
+        _ammoImg.sprite = _ammoSprites[activeAmmo.GetHashCode()];
     }
 
     public void UpdateAmmoText(string ammoCount)
@@ -108,5 +111,6 @@ public class UIManager : MonoBehaviour
         _quitMenu.SetActive(false);
         _gameManager.ResumeGame();
     }
+
 
 }
