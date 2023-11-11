@@ -42,6 +42,7 @@ public class Player : MonoBehaviour
     private bool _shieldActive;
     private int _shieldHealth = 3;
     [SerializeField] private GameObject _shieldObject;
+    private SpriteRenderer _shieldRenderer;
     #endregion
 
     [SerializeField] private GameObject _rightEngineDamage, _leftEngineDamage;
@@ -89,6 +90,12 @@ public class Player : MonoBehaviour
         if(_spriteRenderer == null)
         {
             Debug.LogError("Player failed to cache reference to its SpriteRenderer");
+        }
+
+        _shieldRenderer = _shieldObject.GetComponent<SpriteRenderer>();
+        if(_shieldRenderer == null)
+        {
+            Debug.LogError("Player failed to cache reference its shield SpriteRenderer");
         }
 
         _audioSource = GetComponent<AudioSource>();
@@ -233,7 +240,7 @@ public class Player : MonoBehaviour
     private void DamageShield()
     {
         _shieldHealth -= 1;
-
+        
         //hit shield
         //shield hit sound
             //_audioSource.clip = _explosionClip;
@@ -241,15 +248,17 @@ public class Player : MonoBehaviour
         //reset to laser sound
         _audioSource.clip = _laserClip;
 
+        Color currentColor = _shieldRenderer.color;
+
         switch (_shieldHealth)
         {
             case 3:
                 break;
             case 2:
-                //damage shield in UI - 1st hit
+                _shieldRenderer.color = new Color (currentColor.r, currentColor.g, currentColor.b, .75f);
                 break;
             case 1:
-                //damage shield in UI - 2nd hit
+                _shieldRenderer.color = new Color(currentColor.r, currentColor.g, currentColor.b, .50f);
                 break;
             default:
                 DeactivateShield();
@@ -267,6 +276,7 @@ public class Player : MonoBehaviour
     {
         _shieldActive = true;
         _shieldHealth = 3;
+        _shieldRenderer.color = Color.white;
         _shieldObject.SetActive(true);
     }
 
