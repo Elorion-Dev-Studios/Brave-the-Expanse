@@ -432,6 +432,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 3.75
   _lives: 3
+  _overdriveReady: 0
+  _overdriveActive: 0
+  _overdriveSpeed: 4.5
   _screenMaxX: 8.75
   _screenMinX: -8.75
   _screenMaxY: 0
@@ -441,7 +444,7 @@ MonoBehaviour:
   _fireRate: 0.5
   _powerupDuration: 3
   _tripleShotPrefab: {fileID: 1571689174186493121, guid: 6910f959aabbc914d95b05bfe6af47f6, type: 3}
-  _speedBoost: 5
+  _speedBoost: 5.5
   _shieldObject: {fileID: 1206675004}
   _thrusterObject: {fileID: 321040953}
   _rightEngineDamage: {fileID: 1381644955}
