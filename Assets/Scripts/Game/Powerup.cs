@@ -65,6 +65,9 @@ public class Powerup : MonoBehaviour
                     case 3:
                         player.ActivateAmmoRefill();
                         break;
+                    case 4:
+                        player.ActivateHealthRefill();
+                        break;
                     default:
                         Debug.Log("Powerup ID is not valid");
                         break;

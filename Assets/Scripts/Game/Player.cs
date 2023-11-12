@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float _speed = 3.5f;
     private Vector3 _direction;
     [SerializeField] private int _lives = 3;
+    [SerializeField] private int  _maxLives = 3;
     private int _score;
 
     #region Overdrive_Props
@@ -237,7 +238,6 @@ public class Player : MonoBehaviour
 
         _uiManager.UpdateLivesImg(_lives);
 
-        //hit audio
         _audioSource.clip = _explosionClip;
         _audioSource.Play();
 
@@ -318,6 +318,27 @@ public class Player : MonoBehaviour
     {
         _ammoCount = _maxAmmoCount;
         _uiManager.UpdateAmmoText(_ammoCount.ToString());
+    }
+
+    public void ActivateHealthRefill()
+    {
+        _lives = _maxLives > _lives ? _lives + 1 : _maxLives;
+
+        //update player engine damage
+        switch (_lives)
+        {
+            case 3:
+                _rightEngineDamage.SetActive(false);
+                _leftEngineDamage.SetActive(false);
+                break;
+            case 2:
+                _leftEngineDamage.SetActive(false);
+                break;
+            default:
+                break;
+        }
+
+        _uiManager.UpdateLivesImg(_lives);
     }
 
     public void IncrementScore(int points)
