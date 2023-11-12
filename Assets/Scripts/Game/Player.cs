@@ -20,14 +20,14 @@ public class Player : MonoBehaviour
     [SerializeField] private float _screenMaxY, _screenMinY;
     #endregion
 
-    #region Laser_Props
+    #region Ammo_Props
     [SerializeField] private GameObject _laserPrefab;
     [SerializeField] private float _laserOffsetY;
     private Vector3 _laserOffsetVector;
     [SerializeField] private float _fireRate = 0.5f;
     private float _nextFire = -1f;
-    //add laser count
-    [SerializeField] private int _laserCount = 15;
+    private int _ammoCount;
+    [SerializeField] private int _maxAmmoCount = 15;
     #endregion
 
     #region Powerup_Props
@@ -112,6 +112,8 @@ public class Player : MonoBehaviour
         {
             _audioSource.clip = _laserClip;
         }
+
+        _ammoCount = _maxAmmoCount;
     }
 
     void Update()
@@ -120,18 +122,15 @@ public class Player : MonoBehaviour
 
         CalculateMovement(currentSpeed);
 
-        //add check for laser count
-        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _nextFire && _laserCount > 0)
+        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _nextFire && _ammoCount > 0)
         {
             FireLaser();
         } 
-        else if (Input.GetKeyDown(KeyCode.Space) && Time.time > _nextFire && _laserCount <= 0)
+        else if (Input.GetKeyDown(KeyCode.Space) && Time.time > _nextFire && _ammoCount <= 0)
         {
-            //play no ammo clip
             _audioSource.clip = _noAmmoClip;
             _audioSource.Play();
 
-            //ui alert -- no ammo
             _uiManager.AlertNoAmmo();
         }
     }
@@ -178,8 +177,8 @@ public class Player : MonoBehaviour
     void FireLaser()
     {
         _nextFire = Time.time + _fireRate;
-        //decrement laser count
-        _laserCount -= 1;
+
+        _ammoCount -= 1;
 
         if (_tripleShotActive)
         {
@@ -190,12 +189,11 @@ public class Player : MonoBehaviour
             Instantiate(_laserPrefab, (transform.position + _laserOffsetVector), Quaternion.identity);
         }
         
-        // play laser sound
         _audioSource.clip = _laserClip;
         _audioSource.Play();
 
-        _uiManager.UpdateAmmoText(_laserCount.ToString());
-        if (_laserCount == 0) 
+        _uiManager.UpdateAmmoText(_ammoCount.ToString());
+        if (_ammoCount == 0) 
         {
             _uiManager.AlertNoAmmo();
         }
@@ -314,6 +312,12 @@ public class Player : MonoBehaviour
     public void ActivateSpeedBoost()
     {
         StartCoroutine(SpeedBoostRoutine());
+    }
+
+    public void ActivateAmmoRefill()
+    {
+        _ammoCount = _maxAmmoCount;
+        _uiManager.UpdateAmmoText(_ammoCount.ToString());
     }
 
     public void IncrementScore(int points)

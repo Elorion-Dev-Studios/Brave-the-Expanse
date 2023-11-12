@@ -9,7 +9,7 @@ public class Powerup : MonoBehaviour
     [SerializeField]
     private float _minY;
 
-    [SerializeField] // 0=TripleShot; 1=Speed; 2=Shield;
+    [SerializeField] // 0=TripleShot; 1=Speed; 2=Shield; 3=Ammo;
     private int _powerupID;
 
     private AudioSource _audioSource;
@@ -61,6 +61,9 @@ public class Powerup : MonoBehaviour
                         break;
                     case 2:
                         player.ActivateShield();
+                        break;
+                    case 3:
+                        player.ActivateAmmoRefill();
                         break;
                     default:
                         Debug.Log("Powerup ID is not valid");
