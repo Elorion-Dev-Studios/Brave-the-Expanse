@@ -445,7 +445,7 @@ MonoBehaviour:
   _laserPrefab: {fileID: 1405930336046096559, guid: 99b74fdc18872e8439f3d599341df2fa, type: 3}
   _laserOffsetY: 0.8
   _fireRate: 0.5
-  _laserCount: 15
+  _maxAmmoCount: 15
   _powerupDuration: 3
   _tripleShotPrefab: {fileID: 1571689174186493121, guid: 6910f959aabbc914d95b05bfe6af47f6, type: 3}
   _speedBoost: 5.5
@@ -2453,7 +2453,7 @@ MonoBehaviour:
   - {fileID: 1826088856857346781, guid: 26446d40fa780d041b6f88d6b8adeb2e, type: 3}
   - {fileID: 2460219193319433201, guid: 40e5e6e31f9e3aa4fa1d70e18c61a2cc, type: 3}
   - {fileID: 6871117144764520297, guid: 282d348ceec5ea5409855df99e39f2da, type: 3}
-  - {fileID: 6871117144764520297, guid: 282d348ceec5ea5409855df99e39f2da, type: 3}
+  - {fileID: 8139257223584636475, guid: 3eb0677479350fd43b588aac49dcf06e, type: 3}
 --- !u!1 &1381644955 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6384774087930718044, guid: 164ba5da1c8500f4aa66beb407402eef, type: 3}
