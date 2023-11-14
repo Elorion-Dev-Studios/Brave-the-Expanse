@@ -208,10 +208,19 @@ public class Player : MonoBehaviour
     IEnumerator TripleShotRoutine()
     {
         _activeAmmoType = AmmoType.TripleShot;
-        _uiManager.UpdateAmmoImg(UIManager.AmmoType.TripleShot);
+        _uiManager.UpdateAmmoImg(_activeAmmoType);
         yield return new WaitForSeconds(_powerupDuration);
         _activeAmmoType = AmmoType.Laser;
-        _uiManager.UpdateAmmoImg(UIManager.AmmoType.Laser);
+        _uiManager.UpdateAmmoImg(_activeAmmoType);
+    }
+
+    IEnumerator BombRoutine()
+    {
+        _activeAmmoType = AmmoType.Bomb;
+        _uiManager.UpdateAmmoImg(_activeAmmoType);
+        yield return new WaitForSeconds(_powerupDuration);
+        _activeAmmoType = AmmoType.Laser;
+        _uiManager.UpdateAmmoImg(_activeAmmoType);
     }
 
     IEnumerator SpeedBoostRoutine()
@@ -313,6 +322,11 @@ public class Player : MonoBehaviour
         StartCoroutine(TripleShotRoutine());
     }
 
+    public void ActivateBomb() 
+    {
+        StartCoroutine(BombRoutine());
+    }
+
     public void ActivateSpeedBoost()
     {
         StartCoroutine(SpeedBoostRoutine());
@@ -358,13 +372,6 @@ public class Player : MonoBehaviour
             Destroy(other.gameObject, 0.05f);
             Damage();
         }
-    }
-
-    private enum AmmoType
-    {
-        Laser,
-        TripleShot,
-        Bomb
     }
 
 }
