@@ -22,7 +22,10 @@ public class Player : MonoBehaviour
     #endregion
 
     #region Ammo_Props
+    [SerializeField] private AmmoType _activeAmmoType = AmmoType.Laser;
     [SerializeField] private GameObject _laserPrefab;
+    [SerializeField] private GameObject _tripleShotPrefab;
+    [SerializeField] private GameObject _bombPrefab;
     [SerializeField] private float _laserOffsetY;
     private Vector3 _laserOffsetVector;
     [SerializeField] private float _fireRate = 0.5f;
@@ -32,11 +35,9 @@ public class Player : MonoBehaviour
     #endregion
 
     #region Powerup_Props
-    [SerializeField] private float _powerupDuration = 3.0f;
+    private bool _tripleShotActive = false;
 
-    private bool _tripleShotActive;
-    [SerializeField] private GameObject _tripleShotPrefab;
-
+    [SerializeField] private float _powerupDuration = 3.0f; 
     private bool _speedBoostActive;
     [SerializeField] private float _speedBoost = 5.0f;
     private bool _thrusterActive;
@@ -181,15 +182,19 @@ public class Player : MonoBehaviour
 
         _ammoCount -= 1;
 
-        if (_tripleShotActive)
+        switch (_activeAmmoType)
         {
-            Instantiate(_tripleShotPrefab, (transform.position), Quaternion.identity);
+            case AmmoType.Laser:
+                Instantiate(_laserPrefab, (transform.position + _laserOffsetVector), Quaternion.identity);
+                break;
+            case AmmoType.TripleShot:
+                Instantiate(_tripleShotPrefab, (transform.position), Quaternion.identity);
+                break;
+            case AmmoType.Bomb:
+                Instantiate(_bombPrefab, (transform.position + _laserOffsetVector), Quaternion.identity);
+                break;
         }
-        else
-        {
-            Instantiate(_laserPrefab, (transform.position + _laserOffsetVector), Quaternion.identity);
-        }
-        
+
         _audioSource.clip = _laserClip;
         _audioSource.Play();
 
@@ -202,12 +207,11 @@ public class Player : MonoBehaviour
 
     IEnumerator TripleShotRoutine()
     {
-        _tripleShotActive = true;
+        _activeAmmoType = AmmoType.TripleShot;
         _uiManager.UpdateAmmoImg(UIManager.AmmoType.TripleShot);
         yield return new WaitForSeconds(_powerupDuration);
-        _tripleShotActive = false;
+        _activeAmmoType = AmmoType.Laser;
         _uiManager.UpdateAmmoImg(UIManager.AmmoType.Laser);
-
     }
 
     IEnumerator SpeedBoostRoutine()
@@ -354,6 +358,13 @@ public class Player : MonoBehaviour
             Destroy(other.gameObject, 0.05f);
             Damage();
         }
+    }
+
+    private enum AmmoType
+    {
+        Laser,
+        TripleShot,
+        Bomb
     }
 
 }
