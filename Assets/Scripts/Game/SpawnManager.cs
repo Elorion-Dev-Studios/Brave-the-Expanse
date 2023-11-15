@@ -21,6 +21,13 @@ public class SpawnManager : MonoBehaviour
     private float _powerupSpawnDelayMin = 3.0f;
     private float _powerupSpawnDelayMax = 7.0f;
 
+    //powerup with weight values
+    //  0-19 = 0
+    // 20-39 = 1
+    // 40-59 = 2
+    // 
+
+
 
     void Start()
     {
@@ -41,10 +48,26 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator PowerupSpawnRoutine()
     {
-        yield return new WaitForSeconds(3.0f);
+        yield return new WaitForSeconds(Random.Range(_powerupSpawnDelayMin, _powerupSpawnDelayMax));
         while (_spawnFlag)
         {
-            int powerupIndex = Random.Range(0, _powerups.Length);
+            int powerupIndex;
+            int weightedRandom = Random.Range(0, 100);
+            
+            //TripleShot - common
+            if (weightedRandom < 20) { powerupIndex = 0; }
+            //Speed - common
+            else if (weightedRandom < 40) { powerupIndex = 1; }
+            //Shield - common
+            else if (weightedRandom < 60) { powerupIndex = 2; }
+            //Ammo - common
+            else if (weightedRandom < 80) { powerupIndex = 3; }
+            //health - uncommon
+            else if (weightedRandom < 95) { powerupIndex = 4; }
+            //bomb - rare
+            else { powerupIndex = 5; }
+
+
             Vector3 powerupSpawnPos = new Vector3(Random.Range(_spawnXMin, _spawnXMax), _spawnY, 0);
 
             Instantiate(_powerups[powerupIndex], powerupSpawnPos, Quaternion.identity);
