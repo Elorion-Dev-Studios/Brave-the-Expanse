@@ -11,12 +11,18 @@ public class Player : MonoBehaviour
     private int _score;
 
     #region Overdrive_Props
-    private bool _overdriveReady = false;
-    private bool _overdriveActive = false;
+    [SerializeField] private bool _overdriveActive = false;
     [SerializeField] private float _overdriveSpeed = 4.0f;
     [SerializeField] private GameObject _minorThrusters;
-    private float _overdriveCharge = 1.0f;
+    [SerializeField] private float _overdriveCharge = 1.0f;
     [SerializeField] private float _overdriveDuration = 3.0f;
+    //time in seconds between when overdrive is deactivated and overdrive begins recharging
+    [SerializeField] private float _overdriveRechargeDelay = 1.0f;
+    //time in seconds to fill overdrive charge from 0 to 100%
+    [SerializeField] private float _overdriveRechargeDuration = 10.0f;
+    //how frequently in second overdrive charge is increment
+    [SerializeField] private float _overdriveRechargeInterval = 0.5f;
+    [SerializeField] private bool _overdriveRecharging = false;
     #endregion
 
     #region ScreenBounds_Props
@@ -148,22 +154,7 @@ public class Player : MonoBehaviour
             return _speedBoost;
         }
 
-        //toggle overdrive when Left-Shift pressed
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            _overdriveActive = _overdriveActive ? false : true;
-        }
-
-        if (_overdriveActive && _overdriveCharge > 0f)
-        {
-            _minorThrusters.SetActive(true);
-            _overdriveCharge -= (1.0f / _overdriveDuration) * Time.deltaTime;
-            _uiManager.UpdateThrusterBar(_overdriveCharge);
-        }
-        else
-        {
-            _minorThrusters.SetActive(false);
-        }
+        CalculateOverdrive();
 
         return _overdriveActive ? _overdriveSpeed : _speed;
     }
@@ -188,6 +179,39 @@ public class Player : MonoBehaviour
         playerPosition.y = Mathf.Clamp(transform.position.y, _screenMinY, _screenMaxY);
 
         transform.position = playerPosition;
+    }
+
+    void CalculateOverdrive()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftShift) &&
+            _overdriveActive == false &&
+            _overdriveCharge > 0f)
+        {
+            _overdriveActive = true;
+            _minorThrusters.SetActive(true);
+        }
+
+        else if ((Input.GetKeyDown(KeyCode.LeftShift) ||
+            _overdriveCharge == 0f) &&
+            _overdriveActive == true)
+        {
+            _overdriveActive = false;
+            _minorThrusters.SetActive(false);
+            StartCoroutine(OverdriveRechargeRoutine());
+        }
+
+        if (_overdriveActive && _overdriveCharge > 0f)
+        {
+            _overdriveCharge -= (1.0f / _overdriveDuration) * Time.deltaTime;
+            _uiManager.UpdateThrusterBar(_overdriveCharge);
+        }
+        else if (_overdriveActive && _overdriveCharge <= 0f)
+        {
+            _overdriveActive = false;
+            _minorThrusters.SetActive(false);
+            StartCoroutine(OverdriveRechargeRoutine());
+        }
+
     }
 
     void FireLaser()
@@ -245,6 +269,21 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(duration);
         _speedBoostActive = false;
         _thrusterObject.SetActive(false);
+    }
+
+    IEnumerator OverdriveRechargeRoutine()
+    {
+        yield return new WaitForSeconds(_overdriveRechargeDelay);
+        while (_overdriveActive == false && _overdriveCharge < 1.0f)
+        {
+            _overdriveCharge += (1 / _overdriveRechargeDuration) * _overdriveRechargeInterval;
+            if(_overdriveCharge > 1.0f )
+            {
+                _overdriveCharge = 1.0f;
+            }
+            _uiManager.UpdateThrusterBar(_overdriveCharge);
+            yield return new WaitForSeconds(_overdriveRechargeInterval);
+        }
     }
 
     public void Damage()
