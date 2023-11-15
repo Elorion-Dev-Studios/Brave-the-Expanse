@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     private bool _overdriveReady = false;
     private bool _overdriveActive = false;
     [SerializeField] private float _overdriveSpeed = 4.0f;
+    [SerializeField] private GameObject _minorThrusters;
     #endregion
 
     #region ScreenBounds_Props
@@ -149,6 +150,15 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             _overdriveActive = _overdriveActive ? false : true;
+        }
+
+        if (_overdriveActive)
+        {
+            _minorThrusters.SetActive(true);
+        }
+        else
+        {
+            _minorThrusters.SetActive(false);
         }
 
         return _overdriveActive ? _overdriveSpeed : _speed;
