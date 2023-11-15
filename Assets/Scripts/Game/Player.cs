@@ -22,7 +22,10 @@ public class Player : MonoBehaviour
     #endregion
 
     #region Ammo_Props
+    [SerializeField] private AmmoType _activeAmmoType = AmmoType.Laser;
     [SerializeField] private GameObject _laserPrefab;
+    [SerializeField] private GameObject _tripleShotPrefab;
+    [SerializeField] private GameObject _bombPrefab;
     [SerializeField] private float _laserOffsetY;
     private Vector3 _laserOffsetVector;
     [SerializeField] private float _fireRate = 0.5f;
@@ -32,11 +35,9 @@ public class Player : MonoBehaviour
     #endregion
 
     #region Powerup_Props
-    [SerializeField] private float _powerupDuration = 3.0f;
+    private bool _tripleShotActive = false;
 
-    private bool _tripleShotActive;
-    [SerializeField] private GameObject _tripleShotPrefab;
-
+    [SerializeField] private float _powerupDuration = 3.0f; 
     private bool _speedBoostActive;
     [SerializeField] private float _speedBoost = 5.0f;
     private bool _thrusterActive;
@@ -181,15 +182,19 @@ public class Player : MonoBehaviour
 
         _ammoCount -= 1;
 
-        if (_tripleShotActive)
+        switch (_activeAmmoType)
         {
-            Instantiate(_tripleShotPrefab, (transform.position), Quaternion.identity);
+            case AmmoType.Laser:
+                Instantiate(_laserPrefab, (transform.position + _laserOffsetVector), Quaternion.identity);
+                break;
+            case AmmoType.TripleShot:
+                Instantiate(_tripleShotPrefab, (transform.position), Quaternion.identity);
+                break;
+            case AmmoType.Bomb:
+                Instantiate(_bombPrefab, (transform.position + _laserOffsetVector), Quaternion.identity);
+                break;
         }
-        else
-        {
-            Instantiate(_laserPrefab, (transform.position + _laserOffsetVector), Quaternion.identity);
-        }
-        
+
         _audioSource.clip = _laserClip;
         _audioSource.Play();
 
@@ -200,22 +205,30 @@ public class Player : MonoBehaviour
         }
     }
 
-    IEnumerator TripleShotRoutine()
+    IEnumerator TripleShotRoutine(float duration)
     {
-        _tripleShotActive = true;
-        _uiManager.UpdateAmmoImg(UIManager.AmmoType.TripleShot);
-        yield return new WaitForSeconds(_powerupDuration);
-        _tripleShotActive = false;
-        _uiManager.UpdateAmmoImg(UIManager.AmmoType.Laser);
-
+        _activeAmmoType = AmmoType.TripleShot;
+        _uiManager.UpdateAmmoImg(_activeAmmoType);
+        yield return new WaitForSeconds(duration);
+        _activeAmmoType = AmmoType.Laser;
+        _uiManager.UpdateAmmoImg(_activeAmmoType);
     }
 
-    IEnumerator SpeedBoostRoutine()
+    IEnumerator BombRoutine(float duration)
+    {
+        _activeAmmoType = AmmoType.Bomb;
+        _uiManager.UpdateAmmoImg(_activeAmmoType);
+        yield return new WaitForSeconds(duration);
+        _activeAmmoType = AmmoType.Laser;
+        _uiManager.UpdateAmmoImg(_activeAmmoType);
+    }
+
+    IEnumerator SpeedBoostRoutine(float duration)
     {
         _speedBoostActive = true;
         _thrusterActive = true;
         _thrusterObject.SetActive(true);
-        yield return new WaitForSeconds(_powerupDuration);
+        yield return new WaitForSeconds(duration);
         _speedBoostActive = false;
         _thrusterObject.SetActive(false);
     }
@@ -296,7 +309,7 @@ public class Player : MonoBehaviour
         _shieldObject.SetActive(false);
     }
 
-    public void ActivateShield()
+    public void ActivateShield(float duration)
     {
         _shieldActive = true;
         _shieldHealth = 3;
@@ -304,23 +317,28 @@ public class Player : MonoBehaviour
         _shieldObject.SetActive(true);
     }
 
-    public void ActivateTripleShot()
+    public void ActivateTripleShot(float duration)
     {
-        StartCoroutine(TripleShotRoutine());
+        StartCoroutine(TripleShotRoutine(duration));
     }
 
-    public void ActivateSpeedBoost()
+    public void ActivateBomb(float duration)
     {
-        StartCoroutine(SpeedBoostRoutine());
+        StartCoroutine(BombRoutine(duration));
     }
 
-    public void ActivateAmmoRefill()
+    public void ActivateSpeedBoost(float duration)
+    {
+        StartCoroutine(SpeedBoostRoutine(duration));
+    }
+
+    public void ActivateAmmoRefill(float duration)
     {
         _ammoCount = _maxAmmoCount;
         _uiManager.UpdateAmmoText(_ammoCount.ToString());
     }
 
-    public void ActivateHealthRefill()
+    public void ActivateHealthRefill(float duration)
     {
         _lives = _maxLives > _lives ? _lives + 1 : _maxLives;
 

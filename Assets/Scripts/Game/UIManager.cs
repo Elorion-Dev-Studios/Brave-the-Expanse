@@ -21,8 +21,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Sprite[] _ammoSprites; 
     [SerializeField] private Image _ammoImg;
 
-    public enum AmmoType { Laser, TripleShot  }
-
     private float _noAmmoFlickerSpeed = 0.5f;
     #endregion
 

@@ -103,6 +103,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 3
   _minY: -6
+  _duration: 0
   _powerupID: 4
 --- !u!61 &2444388016912624597
 BoxCollider2D:

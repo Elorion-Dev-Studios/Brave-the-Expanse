@@ -8,6 +8,7 @@ public class Powerup : MonoBehaviour
     private int _speed;
     [SerializeField]
     private float _minY;
+    [SerializeField] float _duration;
 
     [SerializeField] // 0=TripleShot; 1=Speed; 2=Shield; 3=Ammo;
     private int _powerupID;
@@ -19,7 +20,7 @@ public class Powerup : MonoBehaviour
     void Start()
     {
         _audioSource = GetComponent<AudioSource>();
-        if( _audioSource == null)
+        if (_audioSource == null)
         {
             Debug.LogError("Powerup failed to cache reference to its AudioSource");
         }
@@ -51,22 +52,25 @@ public class Powerup : MonoBehaviour
 
             if (player != null)
             {
-                switch(_powerupID)
+                switch (_powerupID)
                 {
                     case 0:
-                        player.ActivateTripleShot();
+                        player.ActivateTripleShot(_duration);
                         break;
                     case 1:
-                        player.ActivateSpeedBoost();
+                        player.ActivateSpeedBoost(_duration);
                         break;
                     case 2:
-                        player.ActivateShield();
+                        player.ActivateShield(_duration);
                         break;
                     case 3:
-                        player.ActivateAmmoRefill();
+                        player.ActivateAmmoRefill(_duration);
                         break;
                     case 4:
-                        player.ActivateHealthRefill();
+                        player.ActivateHealthRefill(_duration);
+                        break;
+                    case 5:
+                        player.ActivateBomb(_duration);
                         break;
                     default:
                         Debug.Log("Powerup ID is not valid");
@@ -76,7 +80,7 @@ public class Powerup : MonoBehaviour
                 _audioSource.Play();
                 _spriteRenderer.enabled = false;
 
-                Destroy(this.gameObject,1.0f);
+                Destroy(this.gameObject, 1.0f);
             }
             else
             {
