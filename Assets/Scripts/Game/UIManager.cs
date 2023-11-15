@@ -31,7 +31,12 @@ public class UIManager : MonoBehaviour
     private bool _gameOver = false;
     [SerializeField] private string _gameOverVerbiage = "GAME OVER";
     [SerializeField] private float _gameOverFlickerSpeed = 1.0f;
-    private WaitForSeconds _gameOverFlickerDelay; 
+    private WaitForSeconds _gameOverFlickerDelay;
+    #endregion
+
+    #region ThrusterBar_Props
+    [SerializeField] private Image _thrusterBarImg;
+    [SerializeField] private float _thrusterXScale = 0.5f;
     #endregion
 
     [SerializeField] private GameObject _quitMenu;
@@ -55,6 +60,7 @@ public class UIManager : MonoBehaviour
         _gameOverText.gameObject.SetActive(false);
         _restartText.gameObject.SetActive(false);
         _gameOverFlickerDelay = new WaitForSeconds(_gameOverFlickerSpeed);
+        _thrusterBarImg.transform.localScale = new Vector3(_thrusterXScale, 1.0f, 1.0f);
     }
 
     private IEnumerator GameOverFlashRoutine()
@@ -122,6 +128,11 @@ public class UIManager : MonoBehaviour
     {
         _quitMenu.SetActive(false);
         _gameManager.ResumeGame();
+    }
+
+    public void UpdateThrusterBar(float percentFilled)
+    {
+        _thrusterBarImg.transform.localScale = new Vector3(_thrusterXScale, percentFilled, 1.0f);
     }
 
 
