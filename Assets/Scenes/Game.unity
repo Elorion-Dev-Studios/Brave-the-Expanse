@@ -531,6 +531,8 @@ MonoBehaviour:
   _restartText: {fileID: 453876611}
   _gameOverVerbiage: GAME OVER
   _gameOverFlickerSpeed: 1
+  _thrusterBarImg: {fileID: 1142278878}
+  _thrusterXScale: 0.5
   _quitMenu: {fileID: 1244509609}
 --- !u!4 &300794383
 Transform:

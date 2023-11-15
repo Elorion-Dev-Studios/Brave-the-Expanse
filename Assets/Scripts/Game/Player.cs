@@ -15,6 +15,8 @@ public class Player : MonoBehaviour
     private bool _overdriveActive = false;
     [SerializeField] private float _overdriveSpeed = 4.0f;
     [SerializeField] private GameObject _minorThrusters;
+    private float _overdriveCharge = 1.0f;
+    [SerializeField] private float _overdriveDuration = 3.0f;
     #endregion
 
     #region ScreenBounds_Props
@@ -152,9 +154,11 @@ public class Player : MonoBehaviour
             _overdriveActive = _overdriveActive ? false : true;
         }
 
-        if (_overdriveActive)
+        if (_overdriveActive && _overdriveCharge > 0f)
         {
             _minorThrusters.SetActive(true);
+            _overdriveCharge -= (1.0f / _overdriveDuration) * Time.deltaTime;
+            _uiManager.UpdateThrusterBar(_overdriveCharge);
         }
         else
         {
