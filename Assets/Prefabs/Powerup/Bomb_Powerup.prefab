@@ -95,6 +95,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 3
   _minY: -6
+  _duration: 5
   _powerupID: 5
 --- !u!50 &3194726239188945146
 Rigidbody2D:

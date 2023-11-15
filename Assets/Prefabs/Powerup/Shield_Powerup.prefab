@@ -103,6 +103,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 3
   _minY: -6
+  _duration: 3
   _powerupID: 2
 --- !u!95 &6871117144764520213
 Animator:
