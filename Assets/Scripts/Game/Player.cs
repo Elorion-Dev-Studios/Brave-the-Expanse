@@ -307,7 +307,11 @@ public class Player : MonoBehaviour
 
     private void DamagePlayer()
     {
-        _lives -= 1;
+        _lives--;
+        if (_lives <= 0)
+        {
+            _lives = 0;
+        }
 
         _uiManager.UpdateLivesImg(_lives);
 
@@ -332,6 +336,9 @@ public class Player : MonoBehaviour
                 _spriteRenderer.enabled = false;
                 _leftEngineDamage.SetActive(false);
                 _rightEngineDamage.SetActive(false);
+                _thrusterObject.SetActive(false);
+                _minorThrusters.SetActive(false);
+                _shieldRenderer.enabled = false;
                 Destroy(this.gameObject, 2.0f);
                 break;
         }
