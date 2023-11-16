@@ -63,6 +63,7 @@ public class Player : MonoBehaviour
     private SpawnManager _spawnManager;
     private GameManager _gameManager;
     private UIManager _uiManager;
+    private Camera _camera;
 
     #region Audio_Props
     private AudioSource _audioSource;
@@ -100,6 +101,12 @@ public class Player : MonoBehaviour
         if (_gameManager == null)
         {
             Debug.LogError("Player failed to cache reference to Game Manager");
+        }
+
+        _camera = GameObject.Find("MainCamera").GetComponent<Camera>();
+        if (_camera == null)
+        {
+            Debug.LogError("Player failed to cache reference to Main Camera");
         }
 
         _spriteRenderer = GetComponent<SpriteRenderer>();
@@ -306,6 +313,7 @@ public class Player : MonoBehaviour
 
         _audioSource.clip = _explosionClip;
         _audioSource.Play();
+        _camera.ActivateCameraShake();
 
         switch (_lives)
         {
