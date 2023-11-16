@@ -89,6 +89,9 @@ public class SpawnManager : MonoBehaviour
     {
         _spawnFlag = false;
         _enemyContainer.SetActive(false);
-        _lastPowerup.SetActive(false);
+        if (_lastPowerup != null)
+        {
+            _lastPowerup.SetActive(false);
+        }
     }
 }
