@@ -336,6 +336,9 @@ public class Player : MonoBehaviour
                 _spriteRenderer.enabled = false;
                 _leftEngineDamage.SetActive(false);
                 _rightEngineDamage.SetActive(false);
+                _thrusterObject.SetActive(false);
+                _minorThrusters.SetActive(false);
+                _shieldRenderer.enabled = false;
                 Destroy(this.gameObject, 2.0f);
                 break;
         }
