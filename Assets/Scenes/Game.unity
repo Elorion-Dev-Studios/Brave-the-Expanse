@@ -374,7 +374,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.005, y: 0.9932, z: 0}
-  m_LocalScale: {x: 0.93135744, y: 0.9338849, z: 1}
+  m_LocalScale: {x: 0.95, y: 0.95, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -585,8 +585,15 @@ MonoBehaviour:
   _speed: 3.5
   _lives: 3
   _maxLives: 3
+  _overdriveActive: 0
   _overdriveSpeed: 4.5
   _minorThrusters: {fileID: 902642245}
+  _overdriveCharge: 1
+  _overdriveDuration: 3
+  _overdriveRechargeDelay: 1
+  _overdriveRechargeDuration: 10
+  _overdriveRechargeInterval: 0.5
+  _overdriveRecharging: 0
   _screenMaxX: 8.75
   _screenMinX: -8.75
   _screenMaxY: 0
@@ -3223,8 +3230,9 @@ GameObject:
   - component: {fileID: 1758835086}
   - component: {fileID: 1758835085}
   - component: {fileID: 1758835088}
+  - component: {fileID: 1758835089}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: MainCamera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3298,7 +3306,7 @@ Transform:
   m_GameObject: {fileID: 1758835084}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: -0.1, y: 1, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3364,6 +3372,21 @@ MonoBehaviour:
   m_BeforeTransparentBundles: []
   m_BeforeStackBundles: []
   m_AfterStackBundles: []
+--- !u!114 &1758835089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1758835084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b23a01aaa3417eb488b896d495a9e57b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _startPosition: {x: 0, y: 1, z: -10}
+  _shakeAmplitude: {x: 0.1, y: 0, z: 0}
+  _shakeInProgress: 0
 --- !u!1 &1816260406
 GameObject:
   m_ObjectHideFlags: 0
