@@ -21,6 +21,7 @@ public class SpawnManager : MonoBehaviour
     private float _powerupSpawnDelayMin = 3.0f;
     private float _powerupSpawnDelayMax = 7.0f;
 
+    private GameObject _lastPowerup;
     //powerup with weight values
     //  0-19 = 0
     // 20-39 = 1
@@ -44,6 +45,7 @@ public class SpawnManager : MonoBehaviour
             newEnemy.transform.parent = _enemyContainer.transform;
             yield return _enemyDelay;
         }
+
     }
 
     IEnumerator PowerupSpawnRoutine()
@@ -70,7 +72,7 @@ public class SpawnManager : MonoBehaviour
 
             Vector3 powerupSpawnPos = new Vector3(Random.Range(_spawnXMin, _spawnXMax), _spawnY, 0);
 
-            Instantiate(_powerups[powerupIndex], powerupSpawnPos, Quaternion.identity);
+            _lastPowerup = Instantiate(_powerups[powerupIndex], powerupSpawnPos, Quaternion.identity);
             yield return new WaitForSeconds(Random.Range(_powerupSpawnDelayMin, _powerupSpawnDelayMax));
         }
     }
@@ -86,5 +88,7 @@ public class SpawnManager : MonoBehaviour
     public void StopSpawning()
     {
         _spawnFlag = false;
+        _enemyContainer.SetActive(false);
+        _lastPowerup.SetActive(false);
     }
 }
