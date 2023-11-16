@@ -307,7 +307,11 @@ public class Player : MonoBehaviour
 
     private void DamagePlayer()
     {
-        _lives -= 1;
+        _lives--;
+        if (_lives <= 0)
+        {
+            _lives = 0;
+        }
 
         _uiManager.UpdateLivesImg(_lives);
 
