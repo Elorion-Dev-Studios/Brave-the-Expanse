@@ -103,9 +103,16 @@ public class UIManager : MonoBehaviour
         _ammoImg.sprite = _ammoSprites[activeAmmo.GetHashCode()];
     }
 
-    public void UpdateAmmoText(string ammoCount)
+    public void UpdateAmmoText(int ammoCount, int maxAmmo)
     {
-        _ammoText.text = ammoCount;
+        _ammoText.fontSize = 16.0f;
+        _ammoText.text = ammoCount.ToString() + " / " + maxAmmo.ToString();
+    }
+
+    public void UpdateAmmoTextInfiniteAmmo()
+    {
+        _ammoText.fontSize = 24.0f;
+        _ammoText.text = "\u221E";
     }
 
     public void AlertNoAmmo()

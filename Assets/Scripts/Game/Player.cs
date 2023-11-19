@@ -225,7 +225,11 @@ public class Player : MonoBehaviour
     {
         _nextFire = Time.time + _fireRate;
 
-        _ammoCount -= 1;
+        if (_activeAmmoType == AmmoType.Laser)
+        {
+            _ammoCount -= 1;
+            _uiManager.UpdateAmmoText(_ammoCount, _maxAmmoCount);
+        }
 
         switch (_activeAmmoType)
         {
@@ -242,8 +246,7 @@ public class Player : MonoBehaviour
 
         _audioSource.clip = _laserClip;
         _audioSource.Play();
-
-        _uiManager.UpdateAmmoText(_ammoCount.ToString());
+         
         if (_ammoCount == 0) 
         {
             _uiManager.AlertNoAmmo();
@@ -254,18 +257,22 @@ public class Player : MonoBehaviour
     {
         _activeAmmoType = AmmoType.TripleShot;
         _uiManager.UpdateAmmoImg(_activeAmmoType);
+        _uiManager.UpdateAmmoTextInfiniteAmmo();
         yield return new WaitForSeconds(duration);
         _activeAmmoType = AmmoType.Laser;
         _uiManager.UpdateAmmoImg(_activeAmmoType);
+        _uiManager.UpdateAmmoText(_ammoCount, _maxAmmoCount);
     }
 
     IEnumerator BombRoutine(float duration)
     {
         _activeAmmoType = AmmoType.Bomb;
         _uiManager.UpdateAmmoImg(_activeAmmoType);
+        _uiManager.UpdateAmmoTextInfiniteAmmo();
         yield return new WaitForSeconds(duration);
         _activeAmmoType = AmmoType.Laser;
         _uiManager.UpdateAmmoImg(_activeAmmoType);
+        _uiManager.UpdateAmmoText(_ammoCount, _maxAmmoCount);
     }
 
     IEnumerator SpeedBoostRoutine(float duration)
@@ -403,7 +410,10 @@ public class Player : MonoBehaviour
     public void ActivateAmmoRefill(float duration)
     {
         _ammoCount = _maxAmmoCount;
-        _uiManager.UpdateAmmoText(_ammoCount.ToString());
+        if (_activeAmmoType == AmmoType.Laser)
+        {
+            _uiManager.UpdateAmmoText(_ammoCount, _maxAmmoCount);
+        }
     }
 
     public void ActivateHealthRefill(float duration)
