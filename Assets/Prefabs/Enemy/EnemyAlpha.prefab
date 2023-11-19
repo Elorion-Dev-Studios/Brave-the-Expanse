@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 319131864401961292}
   - component: {fileID: 2497587326638614648}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: EnemyAlpha
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 2121459715831160106}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.79, y: 3.57, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -98,20 +98,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 2121459715831160106}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e6483266e7145b4589344457e76d94b, type: 3}
+  m_Script: {fileID: 11500000, guid: 4abb6c804482aca4d999e4c3f5fca54a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 4
   _maxX: 8.5
   _minX: -8.5
-  _maxY: 9
-  _minY: -7
-  _explosionClip: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}
-  _laserClip: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
-  _laser: {fileID: 5584638839487047205, guid: 645e0f2932a6ef448aa6b252801309e6, type: 3}
-  _laserOffsetY: 0
-  _laserDelayMin: 3
-  _laserDelayMax: 7
+  _maxY: 8
+  _minY: -6
+  _onDeathClip: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}
+  _attackClip: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
+  _weapon: {fileID: 5584638839487047205, guid: 645e0f2932a6ef448aa6b252801309e6, type: 3}
+  _weaponOffsetY: 0
+  _weaponDelayMin: 2
+  _weaponDelayMax: 5
 --- !u!61 &4808739181452805839
 BoxCollider2D:
   m_ObjectHideFlags: 0
