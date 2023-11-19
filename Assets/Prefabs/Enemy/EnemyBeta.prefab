@@ -102,11 +102,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 408325800c0570047809c8c158dc4122, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 4
+  _speed: 3.5
   _maxX: 8.25
   _minX: -8.25
   _maxY: 8
   _minY: -5.5
+  _nextGoalPosition: {x: 0, y: 0, z: 0}
+  _movementIncrement: 3
+  _currentDirection: {x: 0, y: 0, z: 0}
+  _xDirection: 1
   _explosion: {fileID: 776335421319600170}
   _deactivateOnDeathDelay: 0.4
   _destroyOnDeathDelay: 2.5

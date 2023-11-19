@@ -11,6 +11,14 @@ public class EnemyBeta : MonoBehaviour
 
     [SerializeField] private float _maxY;
     [SerializeField] private float _minY;
+
+    private float _startingXPos;
+    [SerializeField] private Vector3 _nextGoalPosition;
+    private bool _verticalMovement = true; // true - move vertically, false - move horizontally
+    private bool _goalPosReached = true;
+    [SerializeField] private float _movementIncrement = 3.0f;
+    [SerializeField] private Vector3 _currentDirection;
+    [SerializeField] private float _xDirection = -1.0f; // -1.0 = left; 1.0 = right
     #endregion
 
     #region Damage
@@ -76,14 +84,38 @@ public class EnemyBeta : MonoBehaviour
 
     public void Move()
     {
-        transform.Translate(Vector3.down * _speed * Time.deltaTime);
-
-        if (transform.position.y < _minY)
+        if (_goalPosReached && _verticalMovement)
         {
-            float randomX = Random.Range(_minX, _maxX);
-            transform.position = new Vector3(randomX, _maxY, 0);
+            _nextGoalPosition = new Vector3(transform.position.x, transform.position.y - _movementIncrement, transform.position.z);
+            _currentDirection = (_nextGoalPosition - transform.position) / _movementIncrement;
+            _goalPosReached = false;
+        }
+        else if (_goalPosReached && !_verticalMovement)
+        {
+            _nextGoalPosition = new Vector3(transform.position.x + (_movementIncrement * _xDirection), transform.position.y, transform.position.z);
+            _currentDirection = (_nextGoalPosition - transform.position) / _movementIncrement;
+            _goalPosReached = false;
         }
 
+        transform.Translate(_currentDirection * _speed * Time.deltaTime);
+
+        if ((_verticalMovement && _nextGoalPosition.y >= transform.position.y ) ||
+            (!_verticalMovement && _nextGoalPosition.x >= transform.position.x && _xDirection == -1.0f) ||
+            (!_verticalMovement && _nextGoalPosition.x <= transform.position.x && _xDirection == 1.0f) &&
+            _goalPosReached == false)
+        {
+            _goalPosReached = true;
+            _verticalMovement = !_verticalMovement;
+        }
+
+        if (transform.position.y < _minY  || transform.position.x > _maxX || transform.position.x < _minX)
+        {
+            _startingXPos = Random.Range(_minX, _maxX);
+            transform.position = new Vector3(_startingXPos, _maxY, 0f);
+            _goalPosReached = true;
+            _verticalMovement = true;
+            _xDirection = (_startingXPos >= 0f) ? -1.0f : 1.0f;
+        } 
     }
 
 
